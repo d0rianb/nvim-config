@@ -23,7 +23,7 @@ set ignorecase
 set incsearch
 set ruler
 set autoindent
-set autochdir
+set noautochdir
 set expandtab
 set shiftwidth=4
 set smartindent
@@ -110,7 +110,7 @@ noremap <A-o> o<esc>
 noremap <A-o> O<esc>
 
 " Telescope mapping
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files( { cwd = vim.fn.expand('%:p:h') })<cr>
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>Telescope git_files hidden=true<cr>
 nnoremap <leader>fc <cmd>Telescope commands<cr>
 nnoremap <leader>fr <cmd>Telescope lsp_document_symbols<cr>
