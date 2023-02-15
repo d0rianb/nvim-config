@@ -11,6 +11,8 @@ let g:rustfmt_command = 'rustfmt --config-path ~/.config/rustfmt.toml'
 lua << EOF
 local lspconfig = require'lspconfig'
 
+vim.lsp.set_log_level("debug")
+
 -- Show error in floating window
  vim.diagnostic.config{ 
      virtual_text = false,
@@ -48,8 +50,8 @@ vim.api.nvim_create_autocmd('CursorHold', {
 
 -- Setup lspconfig.
 local capabilities = require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabilities())
-lspconfig['tsserver'].setup{ capabilities = capabilities }
-lspconfig['rust_analyzer'].setup{ capabilities = capabilities }
+-- lspconfig['tsserver'].setup{ capabilities = capabilities }
+-- lspconfig['rust_analyzer'].setup{ capabilities = capabilities }
 -- lspconfig['pylsp'].setup{ capabilities = capabilities }
 
 local buf_map = function(bufnr, mode, lhs, rhs, opts)
@@ -59,7 +61,8 @@ local buf_map = function(bufnr, mode, lhs, rhs, opts)
 end
 
 local on_attach = function(client, bufnr)
-    vim.cmd('command! LspDef lua vim.lsp.buf.definition()')
+    vim.cmd('command! LspDefinition lua vim.lsp.buf.definition()')
+    vim.cmd('command! LspDeclaration lua vim.lsp.buf.declaration()')
     vim.cmd('command! LspFormatting lua vim.lsp.buf.formatting()')
     vim.cmd('command! LspCodeAction lua vim.lsp.buf.code_action()')
     vim.cmd('command! LspHover lua vim.lsp.buf.hover()')
@@ -71,7 +74,8 @@ local on_attach = function(client, bufnr)
     vim.cmd('command! LspDiagNext lua vim.diagnostic.goto_next()')
     vim.cmd('command! LspDiagLine lua vim.diagnostic.open_float()')
     vim.cmd('command! LspSignatureHelp lua vim.lsp.buf.signature_help()')
-    buf_map(bufnr, 'n', 'gd', ':LspDef<CR>')
+    buf_map(bufnr, 'n', 'gd', ':LspDefinition<CR>')
+    buf_map(bufnr, 'n', 'gD', ':LspDeclaration<CR>')
     buf_map(bufnr, 'n', 'gi', ':LspImplementation<CR>')
     buf_map(bufnr, 'n', 'gr', ':LspRename<CR>')
     buf_map(bufnr, 'n', 'gt', ':LspTypeDef<CR>')
@@ -79,6 +83,9 @@ local on_attach = function(client, bufnr)
     buf_map(bufnr, 'n', 'gp', ':LspDiagPrev<CR>')
     buf_map(bufnr, 'n', 'gn', ':LspDiagNext<CR>')
     buf_map(bufnr, 'n', 'ga', ':LspCodeAction<CR><Esc>')
+    buf_map(bufnr, 'n', 'gs', ':TSLspOrganize<CR>')
+    buf_map(bufnr, 'n', 'gR', ':TSLspRenameFile<CR>')
+    buf_map(bufnr, 'n', 'go', ':TSLspImportAll<CR>')
 
     if client.server_capabilities.document_formatting then
         vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.format()')
@@ -86,21 +93,20 @@ local on_attach = function(client, bufnr)
 end
 
 lspconfig.tsserver.setup({
+    capabilities = capabilities,
     on_attach = function(client, bufnr)
         client.server_capabilities.document_formatting = false
         client.server_capabilities.document_range_formatting = false
         local ts_utils = require'nvim-lsp-ts-utils'
         ts_utils.setup({ always_organize_imports = false })
         ts_utils.setup_client(client)
-        buf_map(bufnr, 'n', 'gs', ':TSLspOrganize<CR>')
-        buf_map(bufnr, 'n', 'gR', ':TSLspRenameFile<CR>')
-        buf_map(bufnr, 'n', 'go', ':TSLspImportAll<CR>')
         on_attach(client, bufnr)
     end
 })
 
 -- Rust
 local opts = {
+    capabilities = capabilities,
     tools = { 
         autoSetHints = true,
         -- hover_with_actions = true,
@@ -136,12 +142,22 @@ local opts = {
 require'rust-tools'.setup(opts)
 
 -- Python
-lspconfig.pylsp.setup{
-    on_attach = function(client, bufnr)
-        on_attach(client, bufnr)
-    end,
-    capabilities = capabilities
-}
+-- lspconfig.pylsp.setup{
+--     capabilities = capabilities,
+--     on_attach = function(client, bufnr)
+--         on_attach(client, bufnr)
+--     end,
+-- }
+local util = require 'lspconfig/util'
 
+require'lspconfig'.pyright.setup{
+    capabilities = capabilities,
+    on_attach = on_attach,
+    cmd = { 'npx', 'pyright-langserver' },
+    filetypes = { "python" },
+    root_dir = function(fname)
+       return util.path.dirname(fname)
+    end
+}
 
 EOF
