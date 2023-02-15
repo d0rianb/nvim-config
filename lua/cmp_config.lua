@@ -9,6 +9,7 @@ lspkind.init() -- vscode-like pictograms in lsp
 
 cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 
+
 cmp.setup({
     snippet = {
         expand = function(args)
