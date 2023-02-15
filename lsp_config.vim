@@ -9,6 +9,8 @@ lua << EOF
 
 vim.lsp.set_log_level("debug")
 
+vim.lsp.set_log_level("debug")
+
 -- Show error in floating window
 vim.diagnostic.config{ 
     virtual_text = false,

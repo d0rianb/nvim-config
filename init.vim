@@ -5,7 +5,7 @@ source ~/.config/nvim/lsp_config.vim
 
 lua require('cmp_config')
 
-set clipboard=unnamed
+set clipboard=unnamedplus
 set number
 set relativenumber
 set linebreak
@@ -23,11 +23,12 @@ set ignorecase
 set incsearch
 set autoindent
 set noautochdir
+set softtabstop=4
+set tabstop=4
 set expandtab
 set shiftwidth=4
 set smartindent
 set smarttab
-set softtabstop=4
 set backspace=indent,eol,start
 set splitbelow
 set splitright
@@ -43,6 +44,7 @@ let g:skip_loading_mswin = 1
 
 " Enable language specific config
 filetype plugin indent on
+filetype plugin on
 
 " Use absolute line numbers in non-focused buffers
 augroup numbertoggle
@@ -68,6 +70,8 @@ augroup dynamic_smartcase
     autocmd CmdLineLeave : set smartcase
 augroup END
 
+au BufNewFile * set noeol
+
 " Clear selection on esc
 map <silent><esc> :let @/ = "" <CR>
 
@@ -88,12 +92,16 @@ nnoremap c "_c
 vnoremap c "_c
 vnoremap p "_dP
 
-noremap y "*y
-noremap yy "*yy
+" Center the view on scroll change
+noremap <C-d> <C-d>zz
+noremap <C-u> <C-u>zz
+nnoremap G Gzz
 
-map <C-d> <C-d>zz
-map <C-u> <C-u>zz
+" Preserve the selection on indent
+xnoremap < <gv
+xnoremap > >gv
 
+" Vim surround shortcut
 xmap ' S'
 " xmap " S" " Problem with clipboard selection
 xmap ( S)
@@ -209,7 +217,7 @@ telescope.setup{
          '--smart-case',
       },
       color_devicons = true,
-      file_ignore_patterns = { 'node_modules', 'plugged', '.git', '.DS_Store', '__pycache__' },
+      file_ignore_patterns = { 'node_modules', 'plugged', '.git', '.DS_Store', '__pycache__', 'venv' },
       layout_config = {
          horizontal = {
             width = 0.8,

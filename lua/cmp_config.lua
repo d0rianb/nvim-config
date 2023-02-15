@@ -32,7 +32,7 @@ cmp.setup({
         { name = 'vsnip' },
         { name = 'nvim_lua' },
         { name = 'nvim_lsp' },
-        { name = 'buffer', keyword_length = 3 }
+        { name = 'buffer', keyword_length = 2 }
     },
     completion = {
         keyword_length = 1,

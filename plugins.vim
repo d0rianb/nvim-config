@@ -50,8 +50,9 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'togglebyte/togglerust'
 Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'davidhalter/jedi-vim'
+" Plug 'davidhalter/jedi-vim'
 Plug 'akinsho/flutter-tools.nvim'
+Plug 'python-rope/ropevim'
 
 " Git
 Plug 'airblade/vim-gitgutter'
