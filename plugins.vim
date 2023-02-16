@@ -22,7 +22,8 @@ Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'nvim-telescope/telescope-ui-select.nvim' " to use telescope ui for other purpose
 Plug 'stevearc/dressing.nvim' " For ui select/input appearance
 
-Plug 'karb94/neoscroll.nvim'
+" Plug 'karb94/neoscroll.nvim'
+Plug 'declancm/cinnamon.nvim'
 Plug 'alvan/vim-closetag'
 Plug 'windwp/nvim-autopairs'
 

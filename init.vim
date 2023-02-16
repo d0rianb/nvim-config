@@ -57,7 +57,7 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost * setlocal norelativenumber
 augroup END
 
-augroup CursorLine
+augroup Cursore
   autocmd!
   autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
   autocmd WinLeave * setlocal nocursorline
@@ -97,9 +97,9 @@ vnoremap c "_c
 vnoremap p "_dP
 
 " Center the view on scroll change
-noremap <C-d> <C-d>zz
-noremap <C-u> <C-u>zz
-nnoremap G Gzz
+" noremap <C-d> <C-d>z.
+" noremap <C-u> <C-u>z.
+" nnoremap G Gzz
 
 " Preserve the selection on indent
 xnoremap < <gv
@@ -249,7 +249,11 @@ telescope.load_extension'ui-select'
 telescope.load_extension'file_browser'
 telescope.load_extension'flutter'
 
-require'neoscroll'.setup{}
+require'cinnamon'.setup{
+extra_keymaps = true,
+  override_keymaps = true,
+  max_length = 500,
+  scroll_limit = -1,} -- NeoScroll like
 
 require'nvim-autopairs'.setup{ enable_check_bracket_line = false }
 
