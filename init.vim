@@ -21,7 +21,6 @@ set hlsearch
 set smartcase
 set ignorecase
 set incsearch
-set ruler
 set autoindent
 set noautochdir
 set softtabstop=4
@@ -37,9 +36,6 @@ set scrolloff=3
 set shell=fish
 set termguicolors
 set mouse=a
-set fillchars=eob:\ 
-
-set backspace=indent,eol,start
 
 let mapleader = " "
 
@@ -117,6 +113,9 @@ map <silent>œ <A-o>
 noremap <A-o> o<esc>
 noremap <A-O> O<esc>
 
+nmap m ]m
+nmap M [m
+
 " Telescope mapping
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>Telescope git_files hidden=true<cr>
@@ -125,6 +124,7 @@ nnoremap <leader>fr <cmd>Telescope lsp_document_symbols<cr>
 nnoremap <leader>fb <cmd>Telescope file_browser hidden=true<cr>jj
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
+" NvimTreeToggle
 nnoremap <leader>tt <cmd>NvimTreeToggle<cr>
 nnoremap <leader>tf <cmd>NvimTreeFocus<cr>
 
@@ -293,10 +293,10 @@ require'nvim-tree'.setup{
 
 require'nvim-web-devicons'.setup {}
 
-require'nvim-web-devicons'.get_icons()
+require'nvim-web-devicons'.get_icons{}
 
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = { 'javascript', 'typescript', 'scss', 'lua', 'rust', 'python', 'json', 'html' },
+    ensure_installed = { 'javascript', 'typescript', 'scss', 'lua', 'rust', 'python', 'json', 'html', 'vim', 'help' },
     sync_install = false,
     highlight = {
         enable = true,
@@ -319,13 +319,25 @@ require'nvim-treesitter.configs'.setup {
     }
 }
 
+require'mason'.setup{
+    ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }
+}
+
+require'mason-lspconfig'.setup{}
+
 require'null-ls'.setup{}
 
 require'dressing'.setup{
-    input = { winblend = 0 }
+    win_options = { winblend = 0 }
 }
 
-require'Comment'.setup()
+require'Comment'.setup{}
 
 require'toggleterm'.setup{
     size = 12,

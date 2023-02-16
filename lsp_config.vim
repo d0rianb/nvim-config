@@ -5,32 +5,18 @@ sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=Dia
 
 set shortmess+=c
 
-let g:rustfmt_autosave = 1
-let g:rustfmt_command = 'rustfmt --config-path ~/.config/rustfmt.toml'
-
 lua << EOF
-local lspconfig = require'lspconfig'
+
+vim.lsp.set_log_level("debug")
 
 vim.lsp.set_log_level("debug")
 
 -- Show error in floating window
- vim.diagnostic.config{ 
-     virtual_text = false,
-     underline = true,
-     severity_sort = true
+vim.diagnostic.config{ 
+    virtual_text = false,
+    underline = true,
+    severity_sort = true
 }
-
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-   border = 'single',
-})
-
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-   border = 'single',
-   focusable = false,
-   relative = 'cursor',
-})
-
-vim.o.updatetime = 250
 
 vim.api.nvim_create_autocmd('CursorHold', {
     buffer = bufnr,
@@ -47,117 +33,66 @@ vim.api.nvim_create_autocmd('CursorHold', {
     end
 })
 
+-- Mappings.
+local opts = { noremap=true, silent=true }
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', 'gp', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', 'gn', vim.diagnostic.goto_next, opts)
 
--- Setup lspconfig.
-local capabilities = require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabilities())
--- lspconfig['tsserver'].setup{ capabilities = capabilities }
--- lspconfig['rust_analyzer'].setup{ capabilities = capabilities }
--- lspconfig['pylsp'].setup{ capabilities = capabilities }
-
-local buf_map = function(bufnr, mode, lhs, rhs, opts)
-    vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or {
-        silent = true,
-    })
-end
-
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-    vim.cmd('command! LspDefinition lua vim.lsp.buf.definition()')
-    vim.cmd('command! LspDeclaration lua vim.lsp.buf.declaration()')
-    vim.cmd('command! LspFormatting lua vim.lsp.buf.formatting()')
-    vim.cmd('command! LspCodeAction lua vim.lsp.buf.code_action()')
-    vim.cmd('command! LspHover lua vim.lsp.buf.hover()')
-    vim.cmd('command! LspRename lua vim.lsp.buf.rename()')
-    vim.cmd('command! LspRefs lua vim.lsp.buf.references()')
-    vim.cmd('command! LspTypeDef lua vim.lsp.buf.type_definition()')
-    vim.cmd('command! LspImplementation lua vim.lsp.buf.implementation()')
-    vim.cmd('command! LspDiagPrev lua vim.diagnostic.goto_prev()')
-    vim.cmd('command! LspDiagNext lua vim.diagnostic.goto_next()')
-    vim.cmd('command! LspDiagLine lua vim.diagnostic.open_float()')
-    vim.cmd('command! LspSignatureHelp lua vim.lsp.buf.signature_help()')
-    buf_map(bufnr, 'n', 'gd', ':LspDefinition<CR>')
-    buf_map(bufnr, 'n', 'gD', ':LspDeclaration<CR>')
-    buf_map(bufnr, 'n', 'gi', ':LspImplementation<CR>')
-    buf_map(bufnr, 'n', 'gr', ':LspRename<CR>')
-    buf_map(bufnr, 'n', 'gt', ':LspTypeDef<CR>')
-    buf_map(bufnr, 'n', 'K', ':LspHover<CR>')
-    buf_map(bufnr, 'n', 'gp', ':LspDiagPrev<CR>')
-    buf_map(bufnr, 'n', 'gn', ':LspDiagNext<CR>')
-    buf_map(bufnr, 'n', 'ga', ':LspCodeAction<CR><Esc>')
-    buf_map(bufnr, 'n', 'gs', ':TSLspOrganize<CR>')
-    buf_map(bufnr, 'n', 'gR', ':TSLspRenameFile<CR>')
-    buf_map(bufnr, 'n', 'go', ':TSLspImportAll<CR>')
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    if client.server_capabilities.document_formatting then
-        vim.cmd('autocmd BufWritePre <buffer> lua vim.lsp.buf.format()')
-    end
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gR', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<space>=', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
-lspconfig.tsserver.setup({
-    capabilities = capabilities,
-    on_attach = function(client, bufnr)
-        client.server_capabilities.document_formatting = false
-        client.server_capabilities.document_range_formatting = false
-        local ts_utils = require'nvim-lsp-ts-utils'
-        ts_utils.setup({ always_organize_imports = false })
-        ts_utils.setup_client(client)
-        on_attach(client, bufnr)
-    end
-})
-
--- Rust
-local opts = {
-    capabilities = capabilities,
-    tools = { 
-        autoSetHints = true,
-        -- hover_with_actions = true,
-        inlay_hints = {
-            show_parameter_hints = false,
-            parameter_hints_prefix = '',
-            other_hints_prefix = '→ ',
-        },
-    },
-    server = {
-        settings = {
-            standalone = true,
-            ['rust-analyzer'] = {
-                checkOnSave = { command = 'cargo check' },
-                assist = {
-                    importGranularity = 'module',
-                },
-                cargo = {
-                    allFeatures = true,
-                    loadOutDirsFromCheck = true
-                },
-                rustfmt = {
-                    extraArgs = { '--config-path ~/.config/rustfmt.toml'}
-                },
-                procMacro = {
-                    enable = true
-                },
-            }
-        }
-    },
+local lsp_flags = {
+  debounce_text_changes = 150,
 }
 
-require'rust-tools'.setup(opts)
+local capabilities = require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
--- Python
--- lspconfig.pylsp.setup{
---     capabilities = capabilities,
---     on_attach = function(client, bufnr)
---         on_attach(client, bufnr)
---     end,
--- }
-local util = require 'lspconfig/util'
-
-require'lspconfig'.pyright.setup{
-    capabilities = capabilities,
+require('lspconfig')['pyright'].setup{
     on_attach = on_attach,
-    cmd = { 'npx', 'pyright-langserver' },
-    filetypes = { "python" },
-    root_dir = function(fname)
-       return util.path.dirname(fname)
-    end
+    capabilities = capabilities,
+    flags = lsp_flags,
+}
+require('lspconfig')['tsserver'].setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = lsp_flags,
+}
+require('lspconfig')['rust_analyzer'].setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = lsp_flags,
+    settings = {
+      ["rust-analyzer"] = {}
+    }
+}
+require('lspconfig')['sumneko_lua'].setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = lsp_flags,
 }
 
 EOF

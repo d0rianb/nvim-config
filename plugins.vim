@@ -7,7 +7,6 @@ Plug 'drewtempelmeyer/palenight.vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'tpope/vim-surround', { 'branch': 'master' }
 Plug 'kyazdani42/nvim-tree.lua'
-Plug 'pangloss/vim-javascript'
 Plug 'sheerun/vim-polyglot'
 Plug 'mattn/emmet-vim'
 Plug 'numToStr/Comment.nvim'
@@ -27,15 +26,18 @@ Plug 'declancm/cinnamon.nvim'
 Plug 'alvan/vim-closetag'
 Plug 'windwp/nvim-autopairs'
 
+
 " Noice
 Plug 'MunifTanjim/nui.nvim'
 Plug 'rcarriga/nvim-notify'
 Plug 'folke/noice.nvim'
 
 " Auto completion
+Plug 'neovim/nvim-lspconfig'
 Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 Plug 'jose-elias-alvarez/null-ls.nvim'
-Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'onsails/lspkind.nvim'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
