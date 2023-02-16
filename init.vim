@@ -4,6 +4,7 @@ source ~/.config/nvim/statusline.vim
 source ~/.config/nvim/lsp_config.vim
 
 lua require('cmp_config')
+lua require('nvim-tree-config')
 
 set clipboard=unnamedplus
 set number
@@ -181,9 +182,6 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 let g:user_emmet_install_global = 0
 autocmd FileType html,css,scss EmmetInstall
 
-" vim-javascript
-let g:javascript_plugin_jsdoc = 1
-
 " Vim Gitgutter
 let g:gitgutter_async = 1
 let g:gitgutter_highlight_linenrs = 0
@@ -250,46 +248,14 @@ telescope.load_extension'file_browser'
 telescope.load_extension'flutter'
 
 require'cinnamon'.setup{
-extra_keymaps = true,
-  override_keymaps = true,
-  max_length = 500,
-  scroll_limit = -1,} -- NeoScroll like
+    extra_keymaps = true,
+    override_keymaps = true,
+    max_length = 500,
+    scroll_limit = -1,
+} -- NeoScroll like
 
 require'nvim-autopairs'.setup{ enable_check_bracket_line = false }
 
-require'nvim-tree'.setup{
-    sync_root_with_cwd = true,
-    prefer_startup_root = true,
-    hijack_cursor = true,
-    create_in_closed_folder = false,
-    view = {
-        signcolumn = 'no',
-        number = false,
-        adaptive_size = true,
-        width = 20
-    },
-    filters = {
-        dotfiles = true,
-        exclude = { '.DS_Store', '^.git$', ':Zone.identifier$' }
-    },
-    actions = {
-        open_file = { quit_on_open = false },
-    },
-    renderer = {
-        highlight_git = false,
-        highlight_opened_files = 'name',
-        icons = { show = { git = false } },
-         indent_markers = {
-          enable = false,
-          icons = {
-            corner = '╰ ',
-            edge = '│ ',
-            item = '│ ',
-            none = '  ',
-        },
-        },
-    }
-}
 
 require'nvim-web-devicons'.setup {}
 

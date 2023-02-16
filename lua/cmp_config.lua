@@ -3,7 +3,7 @@ local lspkind = require'lspkind'
 -- local cmp_window = require'cmp.utils.window'
 local cmp_autopairs = require'nvim-autopairs.completion.cmp'
 
-vim.o.completeopt = 'menu,menuone,noselect' 
+vim.o.completeopt = 'menu,menuone,noselect'
 
 lspkind.init() -- vscode-like pictograms in lsp
 
