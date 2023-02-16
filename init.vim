@@ -282,6 +282,14 @@ require'nvim-treesitter.configs'.setup {
     },
     playground = {
         enable = true
+    },
+    refactor = {
+        smart_rename = {
+      enable = true,
+      keymaps = {
+        smart_rename = "gr",
+      },
+    },
     }
 }
 
@@ -297,7 +305,24 @@ require'mason'.setup{
 
 require'mason-lspconfig'.setup{}
 
-require'null-ls'.setup{}
+require'refactoring'.setup{}
+
+local null_ls = require'null-ls'
+null_ls.setup{
+    sources = {
+        null_ls.builtins.code_actions.gitsigns,
+        null_ls.builtins.code_actions.eslint_d,
+        null_ls.builtins.code_actions.ltrs,
+        null_ls.builtins.code_actions.refactoring,
+
+        null_ls.builtins.completion.vsnip,
+
+        null_ls.builtins.diagnostics.buf,
+        null_ls.builtins.diagnostics.fish,
+        null_ls.builtins.diagnostics.ltrs,
+        null_ls.builtins.diagnostics.mypy,
+    }
+}
 
 require'dressing'.setup{
     win_options = { winblend = 0 }

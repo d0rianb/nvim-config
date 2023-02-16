@@ -55,9 +55,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
   vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
   vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, bufopts)
+  vim.keymap.set('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
   vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
@@ -71,7 +69,7 @@ local lsp_flags = {
 
 local capabilities = require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-require('lspconfig')['pyright'].setup{
+require('lspconfig')['pylsp'].setup{
     on_attach = on_attach,
     capabilities = capabilities,
     flags = lsp_flags,
