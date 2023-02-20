@@ -1,8 +1,8 @@
-let g:material_theme_style = 'palenight'
-colorscheme material
-
 set background=dark
 set syntax=on
+colorscheme palenight
+
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 let &t_Cs = "\e[4:3m"
 let &t_Ce = "\e[4:0m"
@@ -47,4 +47,3 @@ hi! link GitGutterAddLineNr DiffAdd
 hi! link GitGutterChangeLineNr DiffChange
 hi! link GitGutterDeleteLineNr DiffDelete
 hi! link GitGutterChangeDeleteLineNr DiffChangeDelete
-

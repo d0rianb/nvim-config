@@ -1,7 +1,6 @@
 call plug#begin(expand('~/.config/nvim/plugged'))
 
 " Color scheme
-Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 Plug 'drewtempelmeyer/palenight.vim'
 
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
