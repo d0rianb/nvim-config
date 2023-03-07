@@ -22,8 +22,8 @@ set hlsearch
 set smartcase
 set ignorecase
 set incsearch
-set autoindent
 set noautochdir
+set autoindent
 set softtabstop=4
 set tabstop=4
 set expandtab
@@ -38,7 +38,7 @@ set shell=fish
 set termguicolors
 set mouse=a
 
-let mapleader = " "
+let mapleader = " "  " <space>
 
 " for windows keymap
 let g:skip_loading_mswin = 1
@@ -48,21 +48,21 @@ filetype plugin indent on
 filetype plugin on
 
 " Use absolute line numbers in non-focused buffers
-augroup numbertoggle
-	autocmd!
-  autocmd BufEnter,FocusGained * if index(['NvimTree', 'TelescopePrompt', 'toggleterm'], &ft) < 0 | setlocal relativenumber | endif
-  autocmd BufLeave,FocusLost * setlocal norelativenumber
-augroup END
+" augroup numbertoggle
+" 	autocmd!
+"   autocmd BufEnter,FocusGained * if index(['NvimTree', 'TelescopePrompt', 'toggleterm'], &ft) < 0 | setlocal relativenumber | endif
+"   autocmd BufLeave,FocusLost * setlocal norelativenumber
+" augroup END
 
-augroup Cursore
+augroup Cursor
   autocmd!
   autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
   autocmd WinLeave * setlocal nocursorline
 augroup END
 
-augroup NvimTree
-  autocmd BufEnter,FocusGained * set norelativenumber
-augroup END
+" augroup NvimTree
+"   autocmd BufEnter,FocusGained * set norelativenumber
+" augroup END
 
 " assumes set ignorecase smartcase
 augroup dynamic_smartcase
@@ -71,7 +71,6 @@ augroup dynamic_smartcase
     autocmd CmdLineLeave : set smartcase
 augroup END
 
-au BufNewFile * set noeol
 
 " Clear selection on esc
 map <silent><esc> :let @/ = "" <CR>
@@ -178,6 +177,10 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
+" Disable Help on F1
+map <F1> <esc>
+imap <F1> <esc>
+
 " Emmet-vim -- test
 let g:user_emmet_install_global = 0
 autocmd FileType html,css,scss EmmetInstall
@@ -266,6 +269,7 @@ require'nvim-treesitter.configs'.setup {
     sync_install = false,
     highlight = {
         enable = true,
+        disable = { 'vim', 'python' }
     },
     incremental_selection = {
         enable = true,
