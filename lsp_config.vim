@@ -59,6 +59,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', '<A-Enter>', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gR', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>=', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
@@ -68,6 +69,7 @@ local lsp_flags = {
 }
 
 local capabilities = require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local util = require'lspconfig/util'
 
 require('lspconfig')['pylsp'].setup{
     on_attach = on_attach,
@@ -85,8 +87,14 @@ require('lspconfig')['rust_analyzer'].setup{
     on_attach = on_attach,
     capabilities = capabilities,
     flags = lsp_flags,
+    filetypes = { 'rust' },
+    root_dir = util.root_pattern('Cargo.toml'),
     settings = {
-      ["rust-analyzer"] = {}
+      ["rust-analyzer"] = {
+          cargo = {
+              allFeatures = true,
+          }
+      }
     }
 }
 
@@ -98,5 +106,15 @@ require('lspconfig')['lua_ls'].setup{
         Lua = { diagnostics = { globals = {'vim'} } }
     }
 }
+
+local rt = require("rust-tools")
+rt.setup({
+  server = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  },
+})
+
+vim.g.rustfmt_autosave = 1
 
 EOF

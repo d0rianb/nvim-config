@@ -51,12 +51,16 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'ThePrimeagen/refactoring.nvim'
 
-Plug 'simrat39/rust-tools.nvim'
-Plug 'togglebyte/togglerust'
 Plug 'Vimjas/vim-python-pep8-indent'
 " Plug 'davidhalter/jedi-vim'
 Plug 'akinsho/flutter-tools.nvim'
 Plug 'python-rope/ropevim'
+
+" Rust
+Plug 'simrat39/rust-tools.nvim'
+Plug 'togglebyte/togglerust'
+Plug 'simrat39/rust-tools.nvim'
+Plug 'rust-lang/rust.vim'
 
 " Git
 Plug 'airblade/vim-gitgutter'

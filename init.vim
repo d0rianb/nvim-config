@@ -79,6 +79,7 @@ map <silent><esc> :let @/ = "" <CR>
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 inoremap jj <Esc>
+inoremap kk <Esc>
 
 " adapt nvim to french keyboard
 map à 0
@@ -110,6 +111,7 @@ xmap [ S]
 
 " œ = <A-o>
 map <silent>œ <A-o>
+map <silent>Œ <A-O>
 noremap <A-o> o<esc>
 noremap <A-O> O<esc>
 
@@ -123,6 +125,7 @@ nnoremap <leader>fc <cmd>Telescope commands<cr>
 nnoremap <leader>fr <cmd>Telescope lsp_document_symbols<cr>
 nnoremap <leader>fb <cmd>Telescope file_browser hidden=true<cr>jj
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>fj <cmd>Telescope jumplist<cr>
 
 " NvimTreeToggle
 nnoremap <leader>tt <cmd>NvimTreeToggle<cr>
@@ -269,7 +272,7 @@ require'nvim-treesitter.configs'.setup {
     sync_install = false,
     highlight = {
         enable = true,
-        disable = { 'vim', 'python' }
+        disable = { 'vim', 'python', 'javascript' }
     },
     incremental_selection = {
         enable = true,
