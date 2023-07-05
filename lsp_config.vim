@@ -7,9 +7,7 @@ set shortmess+=c
 
 lua << EOF
 
-vim.lsp.set_log_level("debug")
-
-vim.lsp.set_log_level("debug")
+-- vim.lsp.set_log_level("debug")
 
 -- Show error in floating window
 vim.diagnostic.config{ 
@@ -60,7 +58,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gr', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', '<A-Enter>', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gR', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', 'gR', require('telescope.builtin').lsp_references, bufopts)
   vim.keymap.set('n', '<space>=', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
@@ -91,9 +89,10 @@ require('lspconfig')['rust_analyzer'].setup{
     root_dir = util.root_pattern('Cargo.toml'),
     settings = {
       ["rust-analyzer"] = {
-          cargo = {
-              allFeatures = true,
-          }
+          cargo = { allFeatures = true, },
+          inlayHints = {
+              parameterHints = false
+          }      
       }
     }
 }
