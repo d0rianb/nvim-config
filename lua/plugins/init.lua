@@ -8,6 +8,9 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup {
+  install = {
+    colortheme = { 'palenight', 'tokyonight' },
+  },
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'mg979/vim-visual-multi', -- mutli cursors
   -- Use `opts = {}` to force a plugin to be loaded.
@@ -40,7 +43,11 @@ require('lazy').setup {
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
-      require('which-key').setup()
+      require('which-key').setup {
+        window = {
+          winblend = 0, -- value between 0-100 0 for fully opaque and 100 for fully transparent
+        },
+      }
 
       -- Document existing key chains
       require('which-key').register {
