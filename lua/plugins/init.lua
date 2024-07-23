@@ -130,6 +130,7 @@ require('lazy').setup {
   require 'plugins/debug',
   require 'plugins/lint',
   require 'plugins/autopairs',
+  require 'plugins/trouble',
 
   require 'colortheme',
 }
