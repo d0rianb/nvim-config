@@ -8,13 +8,9 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup {
-  install = {
-    colortheme = { 'palenight', 'tokyonight' },
-  },
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'mg979/vim-visual-multi', -- mutli cursors
   -- Use `opts = {}` to force a plugin to be loaded.
-  --
   --  This is equivalent to:
   --    require('Comment').setup({})
 
@@ -116,9 +112,18 @@ require('lazy').setup {
       }
     end,
   },
-
-  require 'colortheme',
-
+  {
+    'ysmb-wtsg/in-and-out.nvim',
+    keys = {
+      {
+        '<Tab>',
+        function()
+          require('in-and-out').in_and_out()
+        end,
+        mode = 'i',
+      },
+    },
+  },
   require 'plugins/nvim-cmp',
   require 'plugins/telescope',
   require 'plugins/mini',
@@ -128,4 +133,6 @@ require('lazy').setup {
   require 'plugins/debug',
   require 'plugins/lint',
   require 'plugins/autopairs',
+
+  require 'colortheme',
 }

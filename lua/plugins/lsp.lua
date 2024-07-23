@@ -36,7 +36,7 @@ return {
         map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
         -- Find references for the word under your cursor.
-        map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+        map('gu', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
         -- Jump to the implementation of the word under your cursor.
         --  Useful when your language has ways of declaring types without an actual implementation.
@@ -131,7 +131,7 @@ return {
     local servers = {
       -- clangd = {},
       -- gopls = {},
-      -- pyright = {},
+      pyright = {},
       -- rust_analyzer = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
       --
@@ -141,7 +141,7 @@ return {
       -- But for many setups, the LSP (`tsserver`) will work just fine
       -- tsserver = {},
       --
-
+      pylsp = {},
       lua_ls = {
         -- cmd = {...},
         -- filetypes = { ...},

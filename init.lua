@@ -15,6 +15,10 @@ vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 vim.opt.relativenumber = true
 
+-- Tabs
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
@@ -110,15 +114,15 @@ vim.keymap.set('i', 'jj', '<Esc>', { noremap = true, desc = 'Remap jj to esc' })
 vim.keymap.set('i', 'kk', '<Esc>', { noremap = true, desc = 'Remap kk esc' })
 
 -- Delete without perturbing the clipboard register
-for _, key in ipairs { 'd', 'D', 'x', 'c', 'C', 'p' } do
+for _, key in ipairs { 'd', 'D', 'c', 'C' } do
   for _, mode in ipairs { 'n', 'v' } do
-    if key == 'p' then
-      key = 'P'
-    end -- special case for paste
-    vim.keymap.set(mode, key, '"_' .. key, { noremap = true, silent = true })
-    vim.keymap.set(mode, key .. key, '"_' .. key .. key, { noremap = true, silent = true })
+    vim.keymap.set(mode, key, '"_' .. key, { noremap = true })
+    vim.keymap.set(mode, key .. key, '"_' .. key .. key, { noremap = true })
   end
 end
+
+-- Preserve clipboard when pasting over selection
+vim.keymap.set('v', 'p', '"_dP', { noremap = true })
 
 -- Preserve the selection when shifting
 vim.keymap.set('x', '>', '>gv', { desc = 'Preserve the selection while shifting right' })
