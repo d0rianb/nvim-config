@@ -13,13 +13,21 @@ return { -- Highlight, edit, and navigate code
       additional_vim_regex_highlighting = { 'ruby' },
     },
     indent = { enable = true, disable = { 'ruby' } },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = false,
+        node_incremental = '<A-Up>',
+        scope_incremental = false,
+        node_decremental = '<A-Down>',
+      },
+    },
   },
   config = function(_, opts)
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
     -- Prefer git instead of curl in order to improve connectivity in some environments
     require('nvim-treesitter.install').prefer_git = true
-    ---@diagnostic disable-next-line: missing-fields
     require('nvim-treesitter.configs').setup(opts)
 
     -- There are additional nvim-treesitter modules that you can use to interact

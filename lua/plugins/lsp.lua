@@ -12,9 +12,18 @@ return {
     -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
     { 'j-hui/fidget.nvim', opts = {} },
 
-    -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
+    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
-    { 'folke/neodev.nvim', opts = {} },
+    {
+      'folke/lazydev.nvim',
+      ft = 'lua',
+      opts = {
+        library = {
+          -- Load luvit types when the `vim.uv` word is found
+          { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+        },
+      },
+    },
   },
   config = function()
     --  This function gets run when an LSP attaches to a particular buffer.
@@ -153,7 +162,7 @@ return {
             },
             -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
             diagnostics = {
-              disable = { 'missing-fields' },
+              -- disable = { 'missing-fields' },
               globals = { 'vim' },
             },
           },

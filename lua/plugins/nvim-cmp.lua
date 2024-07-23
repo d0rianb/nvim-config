@@ -101,6 +101,7 @@ return { -- Autocompletion
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
       sources = {
+        { name = 'lazydev', group_index = 0 }, -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
