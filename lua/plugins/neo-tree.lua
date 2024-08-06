@@ -33,7 +33,7 @@ return {
       hijack_netrw_behavior = 'open_current',
       window = {
         mappings = {
-          ['<leader>tt'] = 'close_current',
+          -- ['<leader>tt'] = 'close_current',
         },
       },
     },
