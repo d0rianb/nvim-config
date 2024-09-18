@@ -27,6 +27,7 @@ return {
   end,
   keys = {
     { '<leader>tt', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
+    { '<leader>tc', ':Neotree close<CR>', { desc = 'NeoTree close' } },
   },
   opts = {
     filesystem = {

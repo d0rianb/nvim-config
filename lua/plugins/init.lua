@@ -11,14 +11,14 @@ require('lazy').setup {
   install = {
     colortheme = { 'palenight', 'tokyonight' },
   },
-  'tpope/vim-sleuth',       -- Detect tabstop and shiftwidth automatically
+  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'mg979/vim-visual-multi', -- mutli cursors
   -- Use `opts = {}` to force a plugin to be loaded.
   --  This is equivalent to:
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',    opts = {} },
+  { 'numToStr/Comment.nvim', opts = {} },
 
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
@@ -103,7 +103,7 @@ require('lazy').setup {
   },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  -- { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   {
     'kylechui/nvim-surround',
@@ -115,18 +115,18 @@ require('lazy').setup {
       }
     end,
   },
-  {
-    'ysmb-wtsg/in-and-out.nvim',
-    keys = {
-      {
-        '<Tab>',
-        function()
-          require('in-and-out').in_and_out()
-        end,
-        mode = 'i',
-      },
-    },
-  },
+  -- {
+  --   'ysmb-wtsg/in-and-out.nvim',
+  --   keys = {
+  --     {
+  --       '<A-Tab>',
+  --       function()
+  --         require('in-and-out').in_and_out()
+  --       end,
+  --       mode = 'i',
+  --     },
+  --   },
+  -- },
   require 'plugins/nvim-cmp',
   require 'plugins/telescope',
   require 'plugins/mini',
@@ -136,7 +136,7 @@ require('lazy').setup {
   require 'plugins/debug',
   require 'plugins/lint',
   require 'plugins/autopairs',
-  require 'plugins/trouble',
+  -- require 'plugins/trouble',
 
   require 'colortheme',
 }
