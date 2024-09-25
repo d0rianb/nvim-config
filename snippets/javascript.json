@@ -2,5 +2,17 @@
   "console.log": {
         "prefix": "log",
         "body": "console.log(${0})"
+    },
+    "console.log a variable": {
+        "prefix": "cv",
+        "body": "console.log('${1}:', ${1})"
+    },
+    "console.error": {
+        "prefix": "err",
+        "body": "console.error(${0})"
+    },
+    "console.warn": {
+        "prefix": "warn",
+        "body": "console.warn(${0})"
     }
 }
