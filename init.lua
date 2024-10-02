@@ -109,6 +109,17 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- Adapt french keyboard to vim
 vim.keymap.set('n', 'à', '0', { noremap = true, desc = 'Remap à to 0' })
 vim.keymap.set('n', 'ù', '%', { noremap = true, desc = 'Remap ù to %' })
+-- vim.keymap.set('n', 'œ', '<A-o>', { noremap = false, silent = true })
+-- vim.keymap.set('n', 'Œ', '<A-O>', { noremap = false, silent = true })
+-- vim.keymap.set('n', 'Ï', '<A-j>', { silent = true })
+-- vim.keymap.set('n', 'È', '<A-k>', { silent = true })
+vim.cmd [[
+    map <silent>Ï <A-j>
+    map <silent>È <A-k>
+    map <silent> <C-k>
+    map <silent>œ <A-o>
+    map <silent>Œ <A-O>
+]]
 
 vim.keymap.set('i', 'jj', '<Esc>', { noremap = true, desc = 'Remap jj to esc' })
 vim.keymap.set('i', 'kk', '<Esc>', { noremap = true, desc = 'Remap kk esc' })

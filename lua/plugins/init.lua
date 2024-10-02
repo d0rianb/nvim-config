@@ -8,6 +8,9 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup {
+  install = {
+    colortheme = { 'palenight', 'tokyonight' },
+  },
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'mg979/vim-visual-multi', -- mutli cursors
   -- Use `opts = {}` to force a plugin to be loaded.
@@ -16,7 +19,6 @@ require('lazy').setup {
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
-  { 'folke/lazydev.nvim', ft = 'lua', opts = {} },
 
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
@@ -35,18 +37,39 @@ require('lazy').setup {
       },
     },
   },
-
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    config = function() -- This is the function that runs, AFTER loading
-      require('which-key').setup {
-        window = {
-          winblend = 0, -- value between 0-100 0 for fully opaque and 100 for fully transparent
-        },
-      }
+  {
+    'olrtg/nvim-emmet',
+    config = function()
+      vim.keymap.set({ 'n', 'v', 'i' }, '<A-Tab>', require('nvim-emmet').wrap_with_abbreviation)
     end,
   },
+
+  -- { -- Useful plugin to show you pending keybinds.
+  --   'folke/which-key.nvim',
+  --   event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+  --   config = function() -- This is the function that runs, AFTER loading
+  --     require('which-key').setup {
+  --       window = {
+  --         winblend = 0, -- value between 0-100 0 for fully opaque and 100 for fully transparent
+  --       },
+  --     }
+  --
+  --     -- Document existing key chains
+  --     require('which-key').register {
+  --       ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+  --       ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+  --       ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+  --       ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+  --       ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+  --       ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
+  --       ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+  --     }
+  --     -- visual mode
+  --     require('which-key').register({
+  --       ['<leader>h'] = { 'Git [H]unk' },
+  --     }, { mode = 'v' })
+  --   end,
+  -- },
 
   { -- Autoformat
     'stevearc/conform.nvim',
@@ -67,7 +90,7 @@ require('lazy').setup {
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, javascript = true }
         return {
           timeout_ms = 500,
           lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
@@ -86,7 +109,7 @@ require('lazy').setup {
   },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  -- { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   {
     'kylechui/nvim-surround',
@@ -98,18 +121,18 @@ require('lazy').setup {
       }
     end,
   },
-  {
-    'ysmb-wtsg/in-and-out.nvim',
-    keys = {
-      {
-        '<Tab>',
-        function()
-          require('in-and-out').in_and_out()
-        end,
-        mode = 'i',
-      },
-    },
-  },
+  -- {
+  --   'ysmb-wtsg/in-and-out.nvim',
+  --   keys = {
+  --     {
+  --       '<A-Tab>',
+  --       function()
+  --         require('in-and-out').in_and_out()
+  --       end,
+  --       mode = 'i',
+  --     },
+  --   },
+  -- },
   require 'plugins/nvim-cmp',
   require 'plugins/telescope',
   require 'plugins/mini',
@@ -119,6 +142,7 @@ require('lazy').setup {
   require 'plugins/debug',
   require 'plugins/lint',
   require 'plugins/autopairs',
+  require 'plugins/lazygit',
   require 'plugins/trouble',
 
   require 'colortheme',
