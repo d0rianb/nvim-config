@@ -43,6 +43,15 @@ require('lazy').setup {
       vim.keymap.set({ 'n', 'v', 'i' }, '<A-Tab>', require('nvim-emmet').wrap_with_abbreviation)
     end,
   },
+  {
+    'levouh/tint.nvim',
+    config = function()
+      require('tint').setup {
+        tint = -20,
+        saturation = 0.6,
+      }
+    end,
+  },
 
   -- { -- Useful plugin to show you pending keybinds.
   --   'folke/which-key.nvim',
