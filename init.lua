@@ -33,6 +33,9 @@ vim.opt.clipboard = 'unnamedplus'
 -- Enable break indent
 vim.opt.breakindent = true
 
+-- Set nowrap
+vim.wo.wrap = false
+
 -- Save undo history
 vim.opt.undofile = true
 
