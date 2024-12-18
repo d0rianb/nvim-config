@@ -42,11 +42,27 @@ return { -- Highlight, edit, and navigate code
           ['aF'] = '@function.outer',
           ['iF'] = '@function.inner',
           ['ac'] = '@class.outer',
-          -- You can optionally set descriptions to the mappings (used in the desc parameter of
-          -- nvim_buf_set_keymap) which plugins like which-key display
           ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
-          -- You can also use captures from other query groups like `locals.scm`
-          ['as'] = { query = '@local.scope', query_group = 'locals', desc = 'Select language scope' },
+        },
+      },
+      move = {
+        enable = true,
+        set_jumps = true,
+        goto_next_start = {
+          [']m'] = '@function.outer',
+          [']]'] = '@class.outer',
+        },
+        goto_next_end = {
+          [']M'] = '@function.outer',
+          [']['] = '@class.outer',
+        },
+        goto_previous_start = {
+          ['[m'] = '@function.outer',
+          ['[['] = '@class.outer',
+        },
+        goto_previous_end = {
+          ['[M'] = '@function.outer',
+          ['[]'] = '@class.outer',
         },
       },
     },
