@@ -1,8 +1,11 @@
 return { -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+  },
   opts = {
-    ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'rust', 'typescript' },
+    ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'rust', 'typescript', 'python' },
     -- Autoinstall languages that are not installed
     auto_install = true,
     highlight = {
@@ -20,6 +23,31 @@ return { -- Highlight, edit, and navigate code
         node_incremental = '<A-Up>',
         scope_incremental = false,
         node_decremental = '<A-Down>',
+      },
+    },
+    playground = {
+      enable = true,
+      updatetime = 25,
+      persist_queries = false,
+    },
+    textobjects = {
+      select = {
+        enable = true,
+
+        -- Automatically jump forward to textobj, similar to targets.vim
+        lookahead = true,
+
+        keymaps = {
+          -- You can use the capture groups defined in textobjects.scm
+          ['aF'] = '@function.outer',
+          ['iF'] = '@function.inner',
+          ['ac'] = '@class.outer',
+          -- You can optionally set descriptions to the mappings (used in the desc parameter of
+          -- nvim_buf_set_keymap) which plugins like which-key display
+          ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
+          -- You can also use captures from other query groups like `locals.scm`
+          ['as'] = { query = '@local.scope', query_group = 'locals', desc = 'Select language scope' },
+        },
       },
     },
   },
