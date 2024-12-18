@@ -127,6 +127,9 @@ vim.cmd [[
 vim.keymap.set('i', 'jj', '<Esc>', { noremap = true, desc = 'Remap jj to esc' })
 vim.keymap.set('i', 'kk', '<Esc>', { noremap = true, desc = 'Remap kk esc' })
 
+-- Disable the selection of the line ending character
+vim.keymap.set('v', '$', 'g_', { noremap = true, silent = true })
+
 -- Delete without perturbing the clipboard register
 for _, key in ipairs { 'd', 'D', 'c', 'C' } do
   for _, mode in ipairs { 'n', 'v' } do

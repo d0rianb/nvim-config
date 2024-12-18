@@ -9,13 +9,16 @@ return { -- Highlight, edit, and navigate code
     -- Autoinstall languages that are not installed
     auto_install = true,
     highlight = {
-      enable = false,
+      enable = true,
       -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
       --  If you are experiencing weird indenting issues, add the language to
       --  the list of additional_vim_regex_highlighting and disabled languages for indent.
       additional_vim_regex_highlighting = { 'ruby' },
     },
-    indent = { enable = true, disable = { 'ruby' } },
+    indent = {
+      enable = true,
+      disable = { 'ruby' },
+    },
     incremental_selection = {
       enable = true,
       keymaps = {
@@ -33,12 +36,8 @@ return { -- Highlight, edit, and navigate code
     textobjects = {
       select = {
         enable = true,
-
-        -- Automatically jump forward to textobj, similar to targets.vim
-        lookahead = true,
-
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
+        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+        keymaps = { -- You can use the capture groups defined in textobjects.scm
           ['aF'] = '@function.outer',
           ['iF'] = '@function.inner',
           ['ac'] = '@class.outer',
