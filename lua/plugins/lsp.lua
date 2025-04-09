@@ -109,6 +109,12 @@ return {
       -- clangd = {},
       -- gopls = {},
       pyright = {},
+      emmet_language_server = {
+        filetypes = { 'html', 'css', 'less', 'sass', 'scss', 'vue' },
+        init_options = {
+          html = {},
+        },
+      },
       -- rust_analyzer = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
       --
