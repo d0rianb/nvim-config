@@ -24,7 +24,7 @@ return {
         },
         vimgrep_arguments = {
           'rg',
-          '--wfishe-filename',
+          '--with-filename',
           '--line-number',
           '--column',
           '--smart-case',
