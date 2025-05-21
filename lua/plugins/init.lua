@@ -99,7 +99,7 @@ require('lazy').setup {
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true, javascript = true }
+        local disable_filetypes = { c = true, cpp = true }
         return {
           timeout_ms = 500,
           lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
@@ -107,6 +107,15 @@ require('lazy').setup {
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        javascript = { 'prettier' },
+        typescript = { 'prettier' },
+        javascriptreact = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        html = { 'prettier' },
+        css = { 'prettier' },
+        json = { 'prettier' },
+        yaml = { 'prettier' },
+        markdown = { 'prettier' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -131,48 +140,48 @@ require('lazy').setup {
     end,
   },
   {
-    "xzbdmw/colorful-menu.nvim",
+    'xzbdmw/colorful-menu.nvim',
     config = function()
-        require("colorful-menu").setup({
-            ls = {
-                lua_ls = {
-                    arguments_hl = "@comment",
-                },
-                gopls = {
-                    align_type_to_right = true,
-                    preserve_type_when_truncate = true,
-                },
-                ts_ls = {
-                    -- false means do not include any extra info,
-                    -- see https://github.com/xzbdmw/colorful-menu.nvim/issues/42
-                    extra_info_hl = "@comment",
-                },
-                ["rust-analyzer"] = {
-                    -- Such as (as Iterator), (use std::io).
-                    extra_info_hl = "@comment",
-                    -- Similar to the same setting of gopls.
-                    align_type_to_right = true,
-                    -- See https://github.com/xzbdmw/colorful-menu.nvim/pull/36
-                    preserve_type_when_truncate = true,
-                },
-                clangd = {
-                    -- Such as "From <stdio.h>".
-                    extra_info_hl = "@comment",
-                    -- Similar to the same setting of gopls.
-                    align_type_to_right = true,
-                    -- the hl group of leading dot of "•std::filesystem::permissions(..)"
-                    import_dot_hl = "@comment",
-                    -- See https://github.com/xzbdmw/colorful-menu.nvim/pull/36
-                    preserve_type_when_truncate = true,
-                },
-                -- If true, try to highlight "not supported" languages.
-                fallback = true,
-                fallback_extra_info_hl = "@comment",
-            },
-            fallback_highlight = "@variable",
-        })
+      require('colorful-menu').setup {
+        ls = {
+          lua_ls = {
+            arguments_hl = '@comment',
+          },
+          gopls = {
+            align_type_to_right = true,
+            preserve_type_when_truncate = true,
+          },
+          ts_ls = {
+            -- false means do not include any extra info,
+            -- see https://github.com/xzbdmw/colorful-menu.nvim/issues/42
+            extra_info_hl = '@comment',
+          },
+          ['rust-analyzer'] = {
+            -- Such as (as Iterator), (use std::io).
+            extra_info_hl = '@comment',
+            -- Similar to the same setting of gopls.
+            align_type_to_right = true,
+            -- See https://github.com/xzbdmw/colorful-menu.nvim/pull/36
+            preserve_type_when_truncate = true,
+          },
+          clangd = {
+            -- Such as "From <stdio.h>".
+            extra_info_hl = '@comment',
+            -- Similar to the same setting of gopls.
+            align_type_to_right = true,
+            -- the hl group of leading dot of "•std::filesystem::permissions(..)"
+            import_dot_hl = '@comment',
+            -- See https://github.com/xzbdmw/colorful-menu.nvim/pull/36
+            preserve_type_when_truncate = true,
+          },
+          -- If true, try to highlight "not supported" languages.
+          fallback = true,
+          fallback_extra_info_hl = '@comment',
+        },
+        fallback_highlight = '@variable',
+      }
     end,
-},
+  },
   -- {
   --   'ysmb-wtsg/in-and-out.nvim',
   --   keys = {

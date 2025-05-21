@@ -123,6 +123,7 @@ return {
       --
       -- But for many setups, the LSP (`tsserver`) will work just fine
       --
+      ts_ls = {},
       pylsp = {},
       lua_ls = {
         -- cmd = {...},
@@ -133,9 +134,8 @@ return {
             completion = {
               callSnippet = 'Replace',
             },
-            -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
             diagnostics = {
-              -- disable = { 'missing-fields' },
+              disable = { 'missing-fields' },
               globals = { 'vim' },
             },
           },
@@ -143,12 +143,6 @@ return {
       },
     }
 
-    -- Ensure the servers and tools above are installed
-    --  To check the current status of installed tools and/or manually install
-    --  other tools, you can run
-    --    :Mason
-    --
-    --  You can press `g?` for help in this menu.
     require('mason').setup()
 
     -- You can add other tools here that you want Mason to install
