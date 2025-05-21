@@ -42,8 +42,14 @@ return {
             preview_height = 0.5,
           },
         },
+      },
+      extensions = {
+        ['ui-select'] = {
+          require('telescope.themes').get_dropdown(),
+        },
         file_browser = {
           hijack_netrw = true,
+          hidden = true,
           mappings = {
             n = {
               ['r'] = telescope.extensions.file_browser.actions.rename,
@@ -52,11 +58,6 @@ return {
               ['m'] = telescope.extensions.file_browser.actions.move,
             },
           },
-        },
-      },
-      extensions = {
-        ['ui-select'] = {
-          require('telescope.themes').get_dropdown(),
         },
       },
     }
