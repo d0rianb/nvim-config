@@ -18,6 +18,11 @@ return {
   config = function()
     local telescope = require 'telescope'
     telescope.setup {
+      pickers = {
+        find_files = {
+          hidden = true,
+        },
+      },
       defaults = {
         mappings = {
           i = { ['<esc>'] = require('telescope.actions').close },
@@ -28,6 +33,7 @@ return {
           '--line-number',
           '--column',
           '--smart-case',
+          '--hidden',
         },
         color_devicons = true,
         file_ignore_patterns = { 'node_modules', 'plugged', '.git', '.DS_Store', '__pycache__', 'venv', 'dist', 'build' },

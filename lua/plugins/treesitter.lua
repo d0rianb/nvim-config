@@ -1,11 +1,12 @@
 return { -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
+  lazy = false,
   build = ':TSUpdate',
   dependencies = {
     'nvim-treesitter/nvim-treesitter-textobjects',
   },
   opts = {
-    ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'rust', 'typescript', 'python' },
+    ensure_installed = { 'bash', 'c', 'diff', 'html', 'json', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'rust', 'typescript', 'python', 'javascript' },
     -- Autoinstall languages that are not installed
     auto_install = true,
     highlight = {
@@ -39,8 +40,8 @@ return { -- Highlight, edit, and navigate code
         enable = true,
         lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
         keymaps = { -- You can use the capture groups defined in textobjects.scm
-          ['aF'] = '@function.outer',
-          ['iF'] = '@function.inner',
+          ['af'] = '@function.outer',
+          ['if'] = '@function.inner',
           ['ac'] = '@class.outer',
           ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
         },

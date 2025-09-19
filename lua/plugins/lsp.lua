@@ -123,7 +123,18 @@ return {
       --
       -- But for many setups, the LSP (`tsserver`) will work just fine
       --
-      ts_ls = {},
+      ts_ls = {
+        on_attach = function(client, bufnr)
+          -- Active le formatting dans tsserver
+          client.server_capabilities.documentFormattingProvider = true
+          client.server_capabilities.documentRangeFormattingProvider = false
+          -- Raccourci formatting
+          vim.keymap.set('n', '<leader>fo', function()
+            vim.lsp.buf.format { async = true }
+          end, { buffer = bufnr, desc = 'Format current buffer' })
+        end,
+        capabilities = capabilities,
+      },
       pylsp = {},
       lua_ls = {
         -- cmd = {...},

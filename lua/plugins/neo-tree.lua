@@ -34,8 +34,17 @@ return {
       hijack_netrw_behavior = 'open_current',
       window = {
         mappings = {
+          ['x'] = 'system_open',
           -- ['<leader>tt'] = 'close_current',
         },
+      },
+      commands = {
+        system_open = function(state)
+          local node = state.tree:get_node()
+          local path = node:get_id()
+          -- macOs: open file in default application in the background.
+          vim.fn.jobstart({ 'open', '-g', path }, { detach = true })
+        end,
       },
     },
   },

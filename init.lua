@@ -51,7 +51,7 @@ vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 400
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -71,6 +71,8 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 5
+
+vim.opt.laststatus = 3
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -94,6 +96,7 @@ vim.diagnostic.config {
   virtual_text = false,
   underline = true,
   severity_sort = true,
+  float = true,
 }
 
 -- Diagnostic keymaps

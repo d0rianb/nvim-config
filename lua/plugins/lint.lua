@@ -45,13 +45,31 @@ return {
       -- lint.linters_by_ft['text'] = nil
 
       local config_path = vim.fn.stdpath 'config' .. '/linter-configs/'
+      local parser = require 'lint.parser'
 
-      -- lint.linters.eslint_d.args = { '--config', config_path .. '.eslintrc.js', '--format', 'json' }
-      lint.linters.stylelint.args = { '--config', config_path .. '.stylelintrc.json' }
+      lint.linters.eslint_d.args = { '--config', config_path .. 'eslint.config.mjs', '--format', 'json' }
       lint.linters.htmlhint.args = { '--config', config_path .. '.htmlhintrc' }
       lint.linters.luacheck.args = { '--config', config_path .. '.luacheckrc' }
       lint.linters.vale.args = { '--config', config_path .. '.vale.ini', '--output=JSON' }
       lint.linters.clippy.args = { '--message-format=json' }
+      lint.linters.stylelint = {
+        cmd = 'npx',
+        stdin = true,
+        append_fname = false,
+        args = {
+          'stylelint',
+          '--config',
+          config_path .. '.stylelintrc.json',
+          '--stdin',
+          '--stdin-filename',
+          function()
+            return vim.api.nvim_buf_get_name(0)
+          end,
+        },
+        parser = parser.from_errorformat('%f:%l:%c: %trror: %m,%f:%l:%c: %tarning: %m', {
+          source = 'stylelint',
+        }),
+      }
 
       -- Vale error are now HINT
       local vale = lint.linters.vale
