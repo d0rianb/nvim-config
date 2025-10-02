@@ -70,26 +70,68 @@ return {
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
-        map('ga', vim.lsp.buf.code_action, '[C]ode [A]ction')
-
+        vim.keymap.set('n', 'ga', function()
+          vim.lsp.buf.code_action {
+            context = {
+              only = {
+                'quickfix',
+                'refactor',
+                'refactor.extract',
+                'refactor.inline',
+                'refactor.rewrite',
+                'source', -- inclut fixAll, organizeImports, etc.
+              },
+              diagnostics = vim.diagnostic.get(),
+            },
+          }
+        end, { desc = '[C]ode [A]ction (ALL)' })
         -- Opens a popup that displays documentation about the word under your cursor
         --  See `:help K` for why this keymap.
         map('K', vim.lsp.buf.hover, 'Hover Documentation')
 
-        -- The following autocommand is used to enable inlay hints in your
+        -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
+        ---@param client vim.lsp.Client
+        ---@param method vim.lsp.protocol.Method
+        ---@param bufnr? integer some lsp support methods only in specific files
+        ---@return boolean
+        local function client_supports_method(client, method, bufnr)
+          if vim.fn.has 'nvim-0.11' == 1 then
+            return client:supports_method(method, bufnr)
+          else
+            return client.supports_method(method, { bufnr = bufnr })
+          end
+        end
+
+        local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+        -- The following code creates a keymap to toggle inlay hints in your
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
-        ---@diagnostic disable-next-line: undefined-global
-        if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+        if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
           map('<leader>th', function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end, '[T]oggle Inlay [H]ints')
         end
       end,
     })
 
-    -- LSP servers and clients are able to communicate to each other what features they support.
+    -- Diagnostic Config
+    -- See :help vim.diagnostic.Opts
+    vim.diagnostic.config {
+      severity_sort = true,
+      float = { border = 'rounded' },
+      underline = true,
+      signs = vim.g.have_nerd_font and {
+        text = {
+          [vim.diagnostic.severity.ERROR] = '󰅚 ',
+          [vim.diagnostic.severity.WARN] = '󰀪 ',
+          [vim.diagnostic.severity.INFO] = '󰋽 ',
+          [vim.diagnostic.severity.HINT] = '󰌶',
+        },
+      } or {},
+      virtual_text = false,
+    } -- LSP servers and clients are able to communicate to each other what features they support.
     --  By default, Neovim doesn't support everything that is in the LSP specification.
     --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
     --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.

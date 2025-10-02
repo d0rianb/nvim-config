@@ -16,11 +16,13 @@ return {
       --
       -- However, note that this will enable a set of default linters,
       -- which will cause errors unless these tools are available:
+      vim.env.ESLINT_D_PPID = vim.fn.getpid()
+
       lint.linters_by_ft = {
-        -- javascript = { 'eslint_d' },
-        -- typescript = { 'eslint_d' },
-        -- javascriptreact = { 'eslint_d' },
-        -- typescriptreact = { 'eslint_d' },
+        javascript = { 'eslint_d' },
+        typescript = { 'eslint_d' },
+        javascriptreact = { 'eslint_d' },
+        typescriptreact = { 'eslint_d' },
         vue = { 'eslint_d' },
         css = { 'stylelint' },
         scss = { 'stylelint' },
@@ -47,7 +49,11 @@ return {
       local config_path = vim.fn.stdpath 'config' .. '/linter-configs/'
       local parser = require 'lint.parser'
 
-      lint.linters.eslint_d.args = { '--config', config_path .. 'eslint.config.mjs', '--format', 'json' }
+      local eslint_local_config = vim.fn.findfile('eslint.config.mjs', '.;')
+      local eslint_config = vim.fn.fnamemodify(eslint_local_config, ':p') or config_path .. 'eslint.config.mjs'
+      print(eslint_config)
+
+      lint.linters.eslint_d.args = { '--config', eslint_config, '--format', 'json', '--stdin' }
       lint.linters.htmlhint.args = { '--config', config_path .. '.htmlhintrc' }
       lint.linters.luacheck.args = { '--config', config_path .. '.luacheckrc' }
       lint.linters.vale.args = { '--config', config_path .. '.vale.ini', '--output=JSON' }

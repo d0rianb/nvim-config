@@ -78,26 +78,20 @@ vim.opt.laststatus = 3
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- Auto-show diagnostics on cursor hold
 vim.api.nvim_create_autocmd('CursorHold', {
   callback = function()
     local opts = {
       focusable = false,
       close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
       border = 'rounded',
-      source = 'always',
+      source = true,
       prefix = ' ',
       scope = 'cursor',
     }
-    vim.diagnostic.open_float(opts)
+    vim.diagnostic.open_float(nil, opts)
   end,
 })
-
-vim.diagnostic.config {
-  virtual_text = false,
-  underline = true,
-  severity_sort = true,
-  float = true,
-}
 
 -- Diagnostic keymaps
 vim.keymap.set('n', 'gp', vim.diagnostic.goto_prev, { desc = 'Go to [P]revious diagnostic message' })
