@@ -6,7 +6,23 @@ return { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter-textobjects',
   },
   opts = {
-    ensure_installed = { 'bash', 'c', 'diff', 'html', 'json', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'rust', 'typescript', 'python', 'javascript' },
+    ensure_installed = {
+      'bash',
+      'c',
+      'diff',
+      'html',
+      'css',
+      'json',
+      'lua',
+      'luadoc',
+      'markdown',
+      'vim',
+      'vimdoc',
+      'rust',
+      'typescript',
+      'python',
+      'javascript',
+    },
     -- Autoinstall languages that are not installed
     auto_install = true,
     highlight = {
@@ -29,11 +45,6 @@ return { -- Highlight, edit, and navigate code
         scope_incremental = false,
         node_decremental = '<A-Down>',
       },
-    },
-    playground = {
-      enable = true,
-      updatetime = 25,
-      persist_queries = false,
     },
     textobjects = {
       select = {

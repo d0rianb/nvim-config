@@ -73,7 +73,7 @@ return { -- Autoformat
         lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
       }
     end,
-    rmatters_by_ft = {
+    formatters_by_ft = {
       lua = { 'stylua' },
       javascript = { 'prettierd', 'prettier', stop_after_first = true },
       typescript = { 'prettier' },
