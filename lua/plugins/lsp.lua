@@ -148,13 +148,8 @@ return {
       --
       ts_ls = {
         on_attach = function(client, bufnr)
-          -- Active le formatting dans tsserver
           client.server_capabilities.documentFormattingProvider = true
           client.server_capabilities.documentRangeFormattingProvider = false
-          -- Raccourci formatting
-          vim.keymap.set('n', '<leader>fo', function()
-            vim.lsp.buf.format { async = true }
-          end, { buffer = bufnr, desc = 'Format current buffer' })
         end,
         capabilities = capabilities,
         init_options = {
@@ -192,6 +187,11 @@ return {
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
+      'eslint_d',
+      'stylelint',
+      'htmlhint',
+      'vale',
+      'luacheck',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
