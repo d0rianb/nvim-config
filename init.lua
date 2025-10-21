@@ -74,6 +74,12 @@ vim.opt.scrolloff = 5
 
 vim.opt.laststatus = 3
 
+-- Disable auto comment on new-line
+vim.api.nvim_create_autocmd('BufEnter', {
+  callback = function()
+    vim.opt.formatoptions:remove { 'r', 'o' }
+  end,
+})
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -171,6 +177,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 require 'plugins'
 require 'highlight' -- Should be the last to be declared
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
