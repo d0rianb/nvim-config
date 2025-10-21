@@ -19,10 +19,22 @@ vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { sp = diagnostic_colors.Erro
 vim.api.nvim_set_hl(0, 'DiagnosticUnderlineWarn', { sp = diagnostic_colors.Warn.fg, undercurl = true })
 
 -- Define signs with text, sign column highlight, and line number highlight
-vim.fn.sign_define('DiagnosticSignError', { text = '󰅚 ', texthl = 'DiagnosticSignError', numhl = 'DiagnosticLineNrError' })
-vim.fn.sign_define('DiagnosticSignWarn',  { text = '󰀪 ', texthl = 'DiagnosticSiarn',  numhl = 'DiagnosticLinWarn'  })
-vim.fn.sign_define('DiagnosticSignInfo',  { text = '󰋽 ', texthl = 'DiagnosticSignInfo',  numhl = 'DiagnosticLineNrInfo'  })
-vim.fn.sign_define('DiagnosticSignHint',  { text = '󰌶',  texthl = 'DiagnosticSignHint',  numhl = 'DiagnosticLineNrHint'  })
+vim.diagnostic.config {
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '󰅚 ',
+      [vim.diagnostic.severity.WARN] = '󰀪',
+      [vim.diagnostic.severity.INFO] = '󰋽',
+      [vim.diagnostic.severity.HINT] = '󰌶',
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = 'DiagnosticLineNrError',
+      [vim.diagnostic.severity.WARN] = 'DiagnosticLinWarn',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticLineNrInfo',
+      [vim.diagnostic.severity.HINT] = 'DiagnosticLineNrHint',
+    },
+  },
+}
 
 -- Transparent background for floating windows
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
