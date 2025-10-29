@@ -36,9 +36,7 @@ require('lazy').setup {
   },
   {
     'olrtg/nvim-emmet',
-    config = function()
-      vim.keymap.set({ 'n', 'v', 'i' }, '<A-Tab>', require('nvim-emmet').wrap_with_abbreviation)
-    end,
+    config = function() vim.keymap.set({ 'n', 'v', 'i' }, '<A-Tab>', require('nvim-emmet').wrap_with_abbreviation) end,
   },
   {
     'levouh/tint.nvim',
@@ -114,7 +112,8 @@ require('lazy').setup {
   --     },
   --   },
   -- },
-  require 'plugins/nvim-cmp',
+  -- require 'plugins/nvim-cmp',
+  require 'plugins.blink-cmp',
   require 'plugins/telescope',
   require 'plugins/mini',
   require 'plugins/lsp',
