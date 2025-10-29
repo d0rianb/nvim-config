@@ -32,9 +32,7 @@ return {
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          local map = function(keys, func, desc)
-            vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-          end
+          local map = function(keys, func, desc) vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc }) end
 
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
@@ -63,7 +61,7 @@ return {
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('<lead@er>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+          map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
@@ -97,9 +95,7 @@ return {
           --
           -- This may be unwanted, since they displace some of your code
           if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, '[T]oggle Inlay [H]ints')
+            map('<leader>th', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end, '[T]oggle Inlay [H]ints')
           end
         end,
       })
@@ -123,7 +119,14 @@ return {
       local vue_ls_share = vim.fn.expand '$MASON/packages/vue-language-server'
       local vue_language_server_path = vue_ls_share .. '/node_modules/@vue/language-server'
 
-      local servers = {
+      local vue_plugin = {
+        name = '@vue/typescript-plugin',
+        location = vue_language_server_path,
+        languages = { 'vue' },
+        configNamespace = 'typescript',
+      }
+
+      local mason_servers = {
         clangd = {},
         -- gopls = {},
         cssls = {},
@@ -135,34 +138,49 @@ return {
             html = {},
           },
         },
-        ts_ls = {
-          on_attach = function(client, bufnr)
-            client.server_capabilities.documentFormattingProvider = false
-            client.server_capabilities.documentRangeFormattingProvider = false
-          end,
+        -- ts_ls = {
+        --   on_attach = function(client, bufnr)
+        --     client.server_capabilities.documentFormattingProvider = false
+        --     client.server_capabilities.documentRangeFormattingProvider = false
+        --   end,
+        --   capabilities = capabilities,
+        --   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+        --   init_options = {
+        --     plugins = {
+        --       {
+        --         name = 'ts-lit-plugin',
+        --         location = '/opt/homebrew/lib/node_modules/ts-lit-plugin',
+        --       },
+        --      vue_plugin
+        --     },
+        --   },
+        -- },
+        vtsls = {
           capabilities = capabilities,
-          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-          init_options = {
-            plugins = {
-              {
-                name = 'ts-lit-plugin',
-                location = '/opt/homebrew/lib/node_modules/ts-lit-plugin',
+          settings = {
+            vtsls = {
+              tsserver = {
+                globalPlugins = { vue_plugin },
               },
-              {
-                name = '@vue/typescript-plugin',
-                location = vue_language_server_path,
-                languages = { 'vue' },
+              typescript = {
+                updateImportsOnFileMove = { enabled = 'always' },
+                suggest = {
+                  completeFunctionCalls = true,
+                },
               },
             },
           },
+          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
         },
         vue_ls = {
           on_init = function(client)
             client.handlers['tsserver/request'] = function(_, result, context)
               local ts_clients = vim.lsp.get_clients { bufnr = context.bufnr, name = 'ts_ls' }
+              local vtsls_clients = vim.lsp.get_clients { bufnr = context.bufnr, name = 'vtsls' }
               local clients = {}
 
               vim.list_extend(clients, ts_clients)
+              vim.list_extend(clients, vtsls_clients)
 
               if #clients == 0 then
                 vim.notify('Could not find `vtsls` or `ts_ls` lsp client, `vue_ls` would not work without it.', vim.log.levels.ERROR)
@@ -222,11 +240,15 @@ return {
         -- },
       }
 
+      local other_servers = {
+        -- No mason servers
+      }
+
       require('mason').setup()
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
+      local ensure_installed = vim.tbl_keys(mason_servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'eslint_d',
@@ -236,17 +258,26 @@ return {
         'luacheck',
       })
 
-      require('mason-tool-installer').setup {
-        ensure_installed = ensure_installed,
-      }
+      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+
+      -- Either merge all additional server configs from the `servers.mason` and `servers.others` tables
+      -- to the default language server configs as provided by nvim-lspconfig or
+      -- define a custom server config that's unavailable on nvim-lspconfig.
+      for server, config in pairs(vim.tbl_extend('keep', mason_servers, other_servers)) do
+        if not vim.tbl_isempty(config) then
+          vim.lsp.config(server, config)
+        end
+      end
+
+      -- After configuring our language servers, we now enable them
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_enable = true,
+        automatic_enable = true, -- automatically run vim.lsp.enable() for all servers that are installed via Mason
       }
 
-      for server_name, config in pairs(servers) do
-        config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
-        vim.lsp.config(server_name, config)
+      -- Manually run vim.lsp.enable for all language servers that are *not* installed via Mason
+      if not vim.tbl_isempty(other_servers) then
+        vim.lsp.enable(vim.tbl_keys(other_servers))
       end
     end,
   },
