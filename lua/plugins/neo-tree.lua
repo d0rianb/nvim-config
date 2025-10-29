@@ -35,6 +35,8 @@ return {
       enable_diagnostics = false,
       filesystem = {
         hijack_netrw_behavior = 'open_current',
+        follow_current_file = { enabled = true },
+        use_libuv_file_watcher = true,
         window = {
           mappings = {
             ['x'] = 'system_open',
