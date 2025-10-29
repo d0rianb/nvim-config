@@ -71,14 +71,14 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 5
+-- Activates smooth, line-by-line scrolling
+vim.opt.smoothscroll = true
 
 vim.opt.laststatus = 3
 
 -- Disable auto comment on new-line
 vim.api.nvim_create_autocmd('BufEnter', {
-  callback = function()
-    vim.opt.formatoptions:remove { 'r', 'o' }
-  end,
+  callback = function() vim.opt.formatoptions:remove { 'r', 'o' } end,
 })
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -170,9 +170,7 @@ vim.keymap.set('n', '<C-k><Up>', '<C-w>s<C-w><Up>', { desc = 'Create a panel at 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
+  callback = function() vim.highlight.on_yank() end,
 })
 
 require 'plugins'

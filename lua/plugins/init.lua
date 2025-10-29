@@ -13,6 +13,7 @@ require('lazy').setup {
   },
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'mg979/vim-visual-multi', -- mutli cursors
+  { 'NMAC427/guess-indent.nvim', opts = {} },
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
