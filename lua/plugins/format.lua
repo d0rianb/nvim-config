@@ -45,9 +45,7 @@ return { -- Autoformat
   keys = {
     {
       '<leader>=',
-      function()
-        require('conform').format { async = true, lsp_fallback = true }
-      end,
+      function() require('conform').format { async = true, lsp_fallback = true } end,
       mode = '',
       desc = '[F]ormat buffer',
     },
@@ -84,23 +82,14 @@ return { -- Autoformat
       json = { 'prettier' },
       yaml = { 'prettier' },
       markdown = { 'prettier' },
-      -- Conform can also run multiple formatters sequentially
-      -- python = { "isort", "black" },
-      --
-      -- You can use a sub-list to tell conform to run *until* a formatter
-      -- is found.
-      -- javascript = { { "prettierd", "prettier" } },
+      python = { 'ruff', 'ruff_organize_imports', 'ruff_format' },
     },
     formatters = {
       prettier = {
-        args = function(self, ctx)
-          return generate_prettier_args(self, ctx)
-        end,
+        args = function(self, ctx) return generate_prettier_args(self, ctx) end,
       },
       prettierd = {
-        args = function(self, ctx)
-          return generate_prettier_args(self, ctx)
-        end,
+        args = function(self, ctx) return generate_prettier_args(self, ctx) end,
       },
     },
   },
