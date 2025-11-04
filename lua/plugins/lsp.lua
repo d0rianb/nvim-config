@@ -117,16 +117,14 @@ return {
       local vue_plugin = {
         name = '@vue/typescript-plugin',
         location = vue_language_server_path,
-        languages = { 'vue' },
+        languages = { 'vue', 'javascript', 'typescript' },
         configNamespace = 'typescript',
       }
 
       local mason_servers = {
         clangd = {},
-        -- gopls = {},
         cssls = {},
         html = {},
-        pyright = {},
         emmet_language_server = {
           filetypes = { 'html', 'css', 'less', 'sass', 'scss', 'vue' },
           init_options = {
@@ -204,7 +202,10 @@ return {
             end
           end,
         },
-        pylsp = {},
+        -- ty = { capabilities = capabilities, },
+        pyright = {
+          capabilities = capabilities,
+        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
