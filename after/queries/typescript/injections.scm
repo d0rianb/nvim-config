@@ -22,3 +22,8 @@
   (#eq? @_func "html")
   (#offset! @injection.content 0 1 0 -1)
   (#set! injection.language "html"))
+
+(
+  (comment) @injection.language (#offset! @injection.language 0 3 0 -3)
+  (template_string (string_fragment) @injection.content)
+)

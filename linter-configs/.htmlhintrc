@@ -2,6 +2,8 @@
   "tagname-lowercase": true,
   "attr-lowercase": true,
   "attr-value-double-quotes": true,
+  "attr-name-style": false,
+  "attr-new-line": 4,
   "doctype-first": true,
   "tag-pair": true,
   "spec-char-escape": true,
