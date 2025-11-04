@@ -100,6 +100,7 @@ require('lazy').setup {
       }
     end,
   },
+  { 'ahmedkhalf/project.nvim' },
   -- {
   --   'ysmb-wtsg/in-and-out.nvim',
   --   keys = {
