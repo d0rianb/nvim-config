@@ -101,6 +101,7 @@ require('lazy').setup {
     end,
   },
   { 'ahmedkhalf/project.nvim' },
+  { 'AckslD/swenv.nvim' }, -- for python venv choose
   -- {
   --   'ysmb-wtsg/in-and-out.nvim',
   --   keys = {
@@ -113,8 +114,8 @@ require('lazy').setup {
   --     },
   --   },
   -- },
-  -- require 'plugins/nvim-cmp',
-  require 'plugins.blink-cmp',
+
+  require 'plugins/blink-cmp',
   require 'plugins/telescope',
   require 'plugins/mini',
   require 'plugins/lsp',
@@ -123,10 +124,8 @@ require('lazy').setup {
   require 'plugins/debug',
   require 'plugins/lint',
   require 'plugins/format',
-  require 'plugins/autopairs',
   require 'plugins/lazygit',
   require 'plugins/trouble',
-  -- require 'plugins/avante',
-
+  --
   require 'colortheme',
 }
