@@ -9,6 +9,8 @@ return { -- Collection of various small independent plugins/modules
     --  - ci'  - [C]hange [I]nside [']quote
     require('mini.ai').setup { n_lines = 500 }
 
+    require('mini.pairs').setup {}
+
     -- Add/delete/replace surroundings (brackets, quotes, etc.)
     --
     -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
@@ -65,9 +67,7 @@ return { -- Collection of various small independent plugins/modules
     -- default behavior. For example, here we set the section for
     -- cursor location to LINE:COLUMN
     ---@diagnostic disable-next-line: duplicate-set-field
-    statusline.section_location = function()
-      return '(%p%%) %2l/%2L'
-    end
+    statusline.section_location = function() return '(%p%%) %2l/%2L' end
 
     -- ... and there is more!
     --  Check out: https://github.com/echasnovski/mini.nvim
