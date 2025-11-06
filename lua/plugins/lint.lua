@@ -28,11 +28,11 @@ return {
 
     -- Linters by filetype
     lint.linters_by_ft = {
-      javascript = { 'eslint_d' },
-      typescript = { 'eslint_d' },
-      javascriptreact = { 'eslint_d' },
-      typescriptreact = { 'eslint_d' },
-      vue = { 'eslint_d' },
+      javascript = { 'oxlint' },
+      typescript = { 'oxlint' },
+      javascriptreact = { 'oxlint' },
+      typescriptreact = { 'oxlint' },
+      vue = { 'oxlint' },
       css = { 'stylelint' },
       scss = { 'stylelint' },
       less = { 'stylelint' },
@@ -43,12 +43,24 @@ return {
       rust = { 'clippy' },
     }
 
+    local oxlint = lint.linters.oxlint
+    oxlint.args = (function()
+      local config = find_config({ 'oxlintrc.json', 'oxlintrc.jsonc' }, 'eslint.config.mjs')
+      return {
+        '--config',
+        config,
+        '--format',
+        'github',
+        '--type-aware',
+      }
+    end)()
+
     -- ESLint_d: use daemon mode for faster linting
     vim.env.ESLINT_D_PPID = vim.fn.getpid()
 
     -- ESLint_d: find eslint.config.mjs, eslint.config.js, or .eslintrc.json
     local eslint_d = lint.linters.eslint_d
-    eslint_d.args = function()
+    eslint_d.args = (function()
       local config = find_config({ 'eslint.config.mjs', 'eslint.config.js', '.eslintrc.json', '.eslintrc.js' }, 'eslint.config.mjs')
       return {
         '--config',
@@ -59,11 +71,11 @@ return {
         '--stdin-filename',
         vim.api.nvim_buf_get_name(0),
       }
-    end
+    end)()
 
     -- Stylelint: find .stylelintrc.json or stylelint.config.js
     local stylelint = lint.linters.stylelint
-    stylelint.args = function()
+    stylelint.args = (function()
       local config = find_config({ '.stylelintrc.json', 'stylelint.config.js', '.stylelintrc' }, '.stylelintrc.json')
       return {
         '--config',
@@ -73,11 +85,11 @@ return {
         '--stdin-filename',
         vim.api.nvim_buf_get_name(0),
       }
-    end
+    end)()
 
     -- HTMLHint: find .htmlhintrc
     local htmlhint = lint.linters.htmlhint
-    htmlhint.args = function()
+    htmlhint.args = (function()
       local config = find_config({ '.htmlhintrc', '.htmlhintrc.json' }, '.htmlhintrc')
       return {
         '--config',
@@ -85,11 +97,11 @@ return {
         '--format',
         'json',
       }
-    end
+    end)()
 
     -- Luacheck: find .luacheckrc
     local luacheck = lint.linters.luacheck
-    luacheck.args = function()
+    luacheck.args = (function()
       local config = find_config({ '.luacheckrc' }, '.luacheckrc')
       return {
         '--config',
@@ -101,18 +113,18 @@ return {
         '--quiet',
         '-',
       }
-    end
+    end)()
 
     -- Vale: find .vale.ini
     local vale = lint.linters.vale
-    vale.args = function()
+    vale.args = (function()
       local config = find_config({ '.vale.ini', '_vale.ini' }, '.vale.ini')
       return {
         '--config',
         config,
         '--output=JSON',
       }
-    end
+    end)()
 
     -- Vale: convert errors to HINT severity
     local original_vale_parser = vale.parser
@@ -126,16 +138,12 @@ return {
 
     -- Autocommand to trigger linting
     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
-    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
+    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
       group = lint_augroup,
-      callback = function()
-        lint.try_lint()
-      end,
+      callback = function() lint.try_lint() end,
     })
 
     -- Manual lint command
-    vim.api.nvim_create_user_command('Lint', function()
-      lint.try_lint()
-    end, { desc = 'Trigger linting for current file' })
+    vim.api.nvim_create_user_command('Lint', function() lint.try_lint() end, { desc = 'Trigger linting for current file' })
   end,
 }

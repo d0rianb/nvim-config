@@ -1,0 +1,7 @@
+{
+  "plugins": ["unicorn", "typescript", "oxc"],
+  "rules": {
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 1 }],
+    "no-unused-vars": "off"
+  }
+}
