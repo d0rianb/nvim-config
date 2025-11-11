@@ -1,30 +1,30 @@
+-- Find config file in project or fallback to global config
+local function find_config(filenames, fallback)
+  local config_path = vim.fn.stdpath 'config' .. '/linter-configs/'
+  local bufname = vim.api.nvim_buf_get_name(0)
+  local root = vim.fs.dirname(bufname)
+
+  for _, filename in ipairs(filenames) do
+    local found = vim.fs.find(filename, {
+      upward = true,
+      path = root,
+      type = 'file',
+    })[1]
+
+    if found then
+      return vim.fs.normalize(found)
+    end
+  end
+
+  return config_path .. fallback
+end
+
 -- Linting Configuration
 return {
   'mfussenegger/nvim-lint',
   event = { 'BufReadPre', 'BufNewFile' },
   config = function()
     local lint = require 'lint'
-    local config_path = vim.fn.stdpath 'config' .. '/linter-configs/'
-
-    -- Find config file in project or fallback to global config
-    local function find_config(filenames, fallback)
-      local bufname = vim.api.nvim_buf_get_name(0)
-      local root = vim.fs.dirname(bufname)
-
-      for _, filename in ipairs(filenames) do
-        local found = vim.fs.find(filename, {
-          upward = true,
-          path = root,
-          type = 'file',
-        })[1]
-
-        if found then
-          return vim.fs.normalize(found)
-        end
-      end
-
-      return config_path .. fallback
-    end
 
     -- Linters by filetype
     lint.linters_by_ft = {
@@ -44,88 +44,64 @@ return {
     }
 
     local oxlint = lint.linters.oxlint
-    oxlint.args = (function()
-      local config = find_config({ 'oxlintrc.json', 'oxlintrc.jsonc' }, 'eslint.config.mjs')
-      return {
-        '--config',
-        config,
-        '--format',
-        'github',
-        '--type-aware',
-      }
-    end)()
+    oxlint.args = {
+      '--config',
+      find_config({ 'oxlintrc.json', 'oxlintrc.jsonc' }, 'eslint.config.mjs') '--format',
+      'github',
+      '--type-aware',
+    }
 
     -- ESLint_d: use daemon mode for faster linting
     vim.env.ESLINT_D_PPID = vim.fn.getpid()
 
     -- ESLint_d: find eslint.config.mjs, eslint.config.js, or .eslintrc.json
     local eslint_d = lint.linters.eslint_d
-    eslint_d.args = (function()
-      local config = find_config({ 'eslint.config.mjs', 'eslint.config.js', '.eslintrc.json', '.eslintrc.js' }, 'eslint.config.mjs')
-      return {
-        '--config',
-        config,
-        '--format',
-        'json',
-        '--stdin',
-        '--stdin-filename',
-        vim.api.nvim_buf_get_name(0),
-      }
-    end)()
+    eslint_d.args = {
+      '--config',
+      find_config({ 'eslint.config.mjs', 'eslint.config.js', '.eslintrc.json', '.eslintrc.js' }, 'eslint.config.mjs') '--format',
+      'json',
+      '--stdin',
+      '--stdin-filename',
+      vim.api.nvim_buf_get_name(0),
+    }
 
     -- Stylelint: find .stylelintrc.json or stylelint.config.js
     local stylelint = lint.linters.stylelint
-    stylelint.args = (function()
-      local config = find_config({ '.stylelintrc.json', 'stylelint.config.js', '.stylelintrc' }, '.stylelintrc.json')
-      return {
-        '--config',
-        config,
-        '--formatter',
-        'json',
-        '--stdin-filename',
-        vim.api.nvim_buf_get_name(0),
-      }
-    end)()
+    stylelint.args = {
+      '--config',
+      find_config({ '.stylelintrc.json', 'stylelint.config.js', '.stylelintrc' }, '.stylelintrc.json') '--formatter',
+      'json',
+      '--stdin-filename',
+      vim.api.nvim_buf_get_name(0),
+    }
 
     -- HTMLHint: find .htmlhintrc
     local htmlhint = lint.linters.htmlhint
-    htmlhint.args = (function()
-      local config = find_config({ '.htmlhintrc', '.htmlhintrc.json' }, '.htmlhintrc')
-      return {
-        '--config',
-        config,
-        '--format',
-        'json',
-      }
-    end)()
+    htmlhint.args = {
+      '--config',
+      find_config({ '.htmlhintrc', '.htmlhintrc.json' }, '.htmlhintrc') '--format',
+      'json',
+    }
 
     -- Luacheck: find .luacheckrc
     local luacheck = lint.linters.luacheck
-    luacheck.args = (function()
-      local config = find_config({ '.luacheckrc' }, '.luacheckrc')
-      return {
-        '--config',
-        config,
-        '--formatter',
-        'plain',
-        '--codes',
-        '--ranges',
-        '--quiet',
-        '-',
-      }
-    end)()
+    luacheck.args = {
+      '--config',
+      find_config({ '.luacheckrc' }, '.luacheckrc') '--formatter',
+      'plain',
+      '--codes',
+      '--ranges',
+      '--quiet',
+      '-',
+    }
 
     -- Vale: find .vale.ini
     local vale = lint.linters.vale
-    vale.args = (function()
-      local config = find_config({ '.vale.ini', '_vale.ini' }, '.vale.ini')
-      return {
-        '--config',
-        config,
-        '--output=JSON',
-      }
-    end)()
-
+    vale.args = {
+      '--config',
+      find_config({ '.vale.ini', '_vale.ini' }, '.vale.ini') '--output=JSON',
+    }
+    vale.ignore_exitcode = true
     -- Vale: convert errors to HINT severity
     local original_vale_parser = vale.parser
     vale.parser = function(output, bufnr, linter_cwd)
