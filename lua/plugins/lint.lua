@@ -5,11 +5,7 @@ local function find_config(filenames, fallback)
   local root = vim.fs.dirname(bufname)
 
   for _, filename in ipairs(filenames) do
-    local found = vim.fs.find(filename, {
-      upward = true,
-      path = root,
-      type = 'file',
-    })[1]
+    local found = vim.fs.find(filename, { upward = true, path = root, type = 'file' })[1]
 
     if found then
       return vim.fs.normalize(found)
@@ -46,7 +42,8 @@ return {
     local oxlint = lint.linters.oxlint
     oxlint.args = {
       '--config',
-      find_config({ 'oxlintrc.json', 'oxlintrc.jsonc' }, 'eslint.config.mjs') '--format',
+      find_config({ 'oxlintrc.json', 'oxlintrc.jsonc' }, 'eslint.config.mjs'),
+      '--format',
       'github',
       '--type-aware',
     }
@@ -58,7 +55,8 @@ return {
     local eslint_d = lint.linters.eslint_d
     eslint_d.args = {
       '--config',
-      find_config({ 'eslint.config.mjs', 'eslint.config.js', '.eslintrc.json', '.eslintrc.js' }, 'eslint.config.mjs') '--format',
+      find_config({ 'eslint.config.mjs', 'eslint.config.js', '.eslintrc.json', '.eslintrc.js' }, 'eslint.config.mjs'),
+      '--format',
       'json',
       '--stdin',
       '--stdin-filename',
@@ -69,7 +67,8 @@ return {
     local stylelint = lint.linters.stylelint
     stylelint.args = {
       '--config',
-      find_config({ '.stylelintrc.json', 'stylelint.config.js', '.stylelintrc' }, '.stylelintrc.json') '--formatter',
+      find_config({ '.stylelintrc.json', 'stylelint.config.js', '.stylelintrc' }, '.stylelintrc.json'),
+      '--formatter',
       'json',
       '--stdin-filename',
       vim.api.nvim_buf_get_name(0),
@@ -79,7 +78,8 @@ return {
     local htmlhint = lint.linters.htmlhint
     htmlhint.args = {
       '--config',
-      find_config({ '.htmlhintrc', '.htmlhintrc.json' }, '.htmlhintrc') '--format',
+      find_config({ '.htmlhintrc', '.htmlhintrc.json' }, '.htmlhintrc'),
+      '--format',
       'json',
     }
 
@@ -87,7 +87,8 @@ return {
     local luacheck = lint.linters.luacheck
     luacheck.args = {
       '--config',
-      find_config({ '.luacheckrc' }, '.luacheckrc') '--formatter',
+      find_config({ '.luacheckrc' }, '.luacheckrc'),
+      '--formatter',
       'plain',
       '--codes',
       '--ranges',
@@ -99,7 +100,8 @@ return {
     local vale = lint.linters.vale
     vale.args = {
       '--config',
-      find_config({ '.vale.ini', '_vale.ini' }, '.vale.ini') '--output=JSON',
+      find_config({ '.vale.ini', '_vale.ini' }, '.vale.ini'),
+      '--output=JSON',
     }
     vale.ignore_exitcode = true
     -- Vale: convert errors to HINT severity
