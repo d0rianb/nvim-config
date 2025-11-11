@@ -45,7 +45,10 @@ return { -- Autocompletion
         'snippet_forward',
         'fallback',
       },
+      ['<Enter>'] = { 'select_accept_and_enter' },
       ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+      ['<Up>'] = { 'select_prev', 'fallback' },
+      ['<Down>'] = { 'select_next', 'fallback' },
     },
 
     appearance = {
