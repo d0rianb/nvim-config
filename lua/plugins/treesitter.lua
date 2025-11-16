@@ -35,7 +35,6 @@ return { -- Highlight, edit, and navigate code
     },
     indent = {
       enable = true,
-      disable = { 'ruby' },
     },
     incremental_selection = {
       enable = true,
@@ -54,7 +53,7 @@ return { -- Highlight, edit, and navigate code
           ['af'] = '@function.outer',
           ['if'] = '@function.inner',
           ['ac'] = '@class.outer',
-          ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
+          ['ic'] = '@class.inner',
         },
       },
       move = {
@@ -63,18 +62,22 @@ return { -- Highlight, edit, and navigate code
         goto_next_start = {
           [']m'] = '@function.outer',
           [']]'] = '@class.outer',
+          [']p'] = '@parameter.inner',
         },
         goto_next_end = {
           [']M'] = '@function.outer',
           [']['] = '@class.outer',
+          [']P'] = '@parameter.outer',
         },
         goto_previous_start = {
           ['[m'] = '@function.outer',
           ['[['] = '@class.outer',
+          ['[p'] = '@parameter.inner',
         },
         goto_previous_end = {
           ['[M'] = '@function.outer',
           ['[]'] = '@class.outer',
+          ['[P'] = '@parameter.outer',
         },
       },
     },
