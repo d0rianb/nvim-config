@@ -67,21 +67,7 @@ return {
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          vim.keymap.set('n', 'ga', function()
-            vim.lsp.buf.code_action {
-              -- context = {
-              --   only = {
-              --     'quickfix',
-              --     'refactor',
-              --     'refactor.extract',
-              --     'refactor.inline',
-              --     'refactor.rewrite',
-              --     'source', -- inclut fixAll, organizeImports, etc.
-              --   },
-              --   diagnostics = vim.diagnostic.get(),
-              -- },
-            }
-          end, { desc = '[C]ode [A]ction' })
+          vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap.
           map('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -200,10 +186,20 @@ return {
             end
           end,
         },
-        -- ty = { capabilities = capabilities, },
-        pyright = {
+        basedpyright = {
           capabilities = capabilities,
+          settings = {
+            basedpyright = {
+              analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = 'openFilesOnly',
+                typeCheckingMode = 'standard', -- 'off', 'basic', 'standard', 'strict', 'all'
+              },
+            },
+          },
         },
+        -- ty = { capabilities = capabilities },
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
