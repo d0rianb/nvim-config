@@ -45,7 +45,14 @@ return { -- Autocompletion
         'snippet_forward',
         'fallback',
       },
-      ['<Enter>'] = { 'select_accept_and_enter' },
+      ['<Enter>'] = {
+        function(cmp)
+          if cmp.snippet_active() then
+            return cmp.accept()
+          end
+        end,
+        'fallback',
+      },
       ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
       ['<Up>'] = { 'select_prev', 'fallback' },
       ['<Down>'] = { 'select_next', 'fallback' },

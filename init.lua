@@ -76,6 +76,9 @@ vim.opt.smoothscroll = true
 
 vim.opt.laststatus = 3
 
+-- Disable the spacebar as its used as leader key
+vim.keymap.set({ 'v', 'n' }, '<leader>', '<nop>', { silent = true })
+
 -- Disable auto comment on new-line
 vim.api.nvim_create_autocmd('BufEnter', {
   callback = function() vim.opt.formatoptions:remove { 'r', 'o' } end,
