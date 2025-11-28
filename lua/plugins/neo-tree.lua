@@ -47,14 +47,14 @@ end
 return {
   {
     'nvim-neo-tree/neo-tree.nvim',
-    version = '*',
+    version = 'v3.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
       'MunifTanjim/nui.nvim',
-      'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+      'nvim-tree/nvim-web-devicons',
     },
     cmd = 'Neotree',
-    lazy = false,
+    lazy = false, -- neo-tree will lazily load itself
     init = function()
       vim.api.nvim_create_autocmd('BufEnter', {
         group = vim.api.nvim_create_augroup('NeoTreeInit', { clear = true }),
