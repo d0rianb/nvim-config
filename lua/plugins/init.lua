@@ -102,19 +102,17 @@ require('lazy').setup {
   },
   { 'ahmedkhalf/project.nvim' },
   { 'AckslD/swenv.nvim' }, -- for python venv choose
-  -- {
-  --   'ysmb-wtsg/in-and-out.nvim',
-  --   keys = {
-  --     {
-  --       '<A-Tab>',
-  --       function()
-  --         require('in-and-out').in_and_out()
-  --       end,
-  --       mode = 'i',
-  --     },
-  --   },
-  -- },
-
+  {
+    'Wansmer/treesj',
+    keys = { '<space>m', '<space>j', '<space>s' },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function() require('treesj').setup {} end,
+  },
+  {
+    'stevearc/overseer.nvim',
+    opts = {},
+  },
+  require 'plugins/autopairs',
   require 'plugins/blink-cmp',
   require 'plugins/telescope',
   require 'plugins/mini',

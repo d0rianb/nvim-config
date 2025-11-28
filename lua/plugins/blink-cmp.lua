@@ -126,9 +126,26 @@ return { -- Autocompletion
         preset = 'cmdline',
         ['<Up>'] = { 'select_prev', 'fallback' },
         ['<Down>'] = { 'select_next', 'fallback' },
+        ['<C-n>'] = { 'select_next', 'fallback' },
+        ['<C-p>'] = { 'select_prev', 'fallback' },
       },
-      sources = { 'buffer', 'cmdline' },
-      completion = {},
+      sources = function()
+        local type = vim.fn.getcmdtype()
+        if type == '/' or type == '?' then
+          return { 'buffer' }
+        end
+        if type == ':' or type == '@' then
+          return { 'cmdline' }
+        end
+        return {}
+      end,
+      completion = {
+        menu = {
+          auto_show = function()
+            return vim.fn.getcmdtype() == ':'
+          end,
+        },
+      },
     },
 
     sources = {
