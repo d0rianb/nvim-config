@@ -37,6 +37,7 @@ return {
       text = { 'vale' },
       lua = { 'luacheck' },
       rust = { 'clippy' },
+      python = { 'ruff' },
     }
 
     local oxlint = lint.linters.oxlint
@@ -113,6 +114,12 @@ return {
       end
       return diagnostics
     end
+
+    local ruff = lint.linters.ruff
+    ruff.args = {
+      '--config',
+      find_config({ 'pyproject.toml', 'ruff.toml', '.ruff.toml' }, 'ruff.toml'),
+    }
 
     -- Autocommand to trigger linting
     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })

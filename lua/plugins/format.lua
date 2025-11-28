@@ -82,7 +82,7 @@ return { -- Autoformat
       json = { 'prettier' },
       yaml = { 'prettier' },
       markdown = { 'prettier' },
-      python = { 'ruff', 'ruff_organize_imports', 'ruff_format' },
+      python = {}, -- Ruff is initialized by nvim-lint
     },
     formatters = {
       prettier = {
