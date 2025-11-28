@@ -128,6 +128,7 @@ vim.cmd [[
     map <silent> <C-k>
     map <silent>œ <A-o>
     map <silent>Œ <A-O>
+    nnoremap q: <nop> 
 ]]
 
 vim.keymap.set('i', 'jj', '<Esc>', { noremap = true, desc = 'Remap jj to esc' })
