@@ -30,7 +30,7 @@ return {
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          local map = function(keys, func, desc) vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc }) end
+          local map = function(keys, func, desc) vim.keymap.set({ 'n', 'v', 'x' }, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc }) end
 
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
@@ -67,10 +67,10 @@ return {
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          vim.keymap.set('n', 'ga', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
+          map('ga', vim.lsp.buf.code_action, '[C]ode [A]ction')
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap.
-          map('K', vim.lsp.buf.hover, 'Hover Documentation')
+          map('K', function() return vim.lsp.buf.hover { border = 'rounded' } end, 'Hover Documentation')
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
 
