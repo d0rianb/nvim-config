@@ -104,14 +104,22 @@ require('lazy').setup {
   { 'AckslD/swenv.nvim' }, -- for python venv choose
   {
     'Wansmer/treesj',
+    lazy = true,
     keys = { '<space>m', '<space>j', '<space>s' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function() require('treesj').setup {} end,
   },
   {
     'stevearc/overseer.nvim',
+    lazy = true,
     opts = {},
   },
+  {
+    'zchee/vim-flatbuffers',
+    lazy = true,
+    ft = { 'fbs' },
+  },
+
   require 'plugins/autopairs',
   require 'plugins/blink-cmp',
   require 'plugins/telescope',

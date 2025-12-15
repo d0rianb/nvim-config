@@ -41,7 +41,6 @@ end
 
 return { -- Autoformat
   'stevearc/conform.nvim',
-  lazy = false,
   keys = {
     {
       '<leader>=',
@@ -67,16 +66,16 @@ return { -- Autoformat
 
       local disable_filetypes = { c = true, cpp = true }
       return {
-        timeout_ms = 1500,
+        timeout_ms = 1000,
         lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
       }
     end,
     formatters_by_ft = {
       lua = { 'stylua' },
-      javascript = { 'prettierd', 'prettier', stop_after_first = true },
-      typescript = { 'prettier' },
-      javascriptreact = { 'prettier' },
-      typescriptreact = { 'prettier' },
+      javascript = { 'oxfmt' },
+      typescript = { 'oxfmt' },
+      javascriptreact = { 'oxfmt' },
+      typescriptreact = { 'oxfmt' },
       html = { 'prettier' },
       css = { 'prettier' },
       json = { 'prettier' },

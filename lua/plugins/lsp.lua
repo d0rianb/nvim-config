@@ -3,6 +3,7 @@
 return {
   {
     'neovim/nvim-lspconfig',
+    lazy = true,
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
@@ -241,6 +242,7 @@ return {
       local ensure_installed = vim.tbl_keys(mason_servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'oxfmt',
         'eslint_d',
         'stylelint',
         'htmlhint',

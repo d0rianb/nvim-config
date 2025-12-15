@@ -8,5 +8,4 @@
   "arrowParens": "avoid",
   "bracketSpacing": true,
   "endOfLine": "lf",
-  "experimentalOperatorPosition": "start"
 }
