@@ -3,7 +3,7 @@
 return {
   {
     'neovim/nvim-lspconfig',
-    lazy = true,
+    lazy = false,
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
@@ -235,14 +235,18 @@ return {
         -- No mason servers
       }
 
-      require('mason').setup()
+      require('mason').setup{ 
+        -- registries = {
+        --   "file:/Users/dorian/Documents/Code/mason-registry"
+        -- }
+      }
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(mason_servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'oxfmt',
+        -- 'oxfmt', -- Not added in mason registry, wainting for https://github.com/mason-org/mason-registry/pull/12767
         'eslint_d',
         'stylelint',
         'htmlhint',
