@@ -76,6 +76,8 @@ vim.opt.smoothscroll = true
 
 vim.opt.laststatus = 3
 
+vim.opt.swapfile = false
+
 -- Disable the spacebar as its used as leader key
 vim.keymap.set({ 'v', 'n' }, '<leader>', '<nop>', { silent = true })
 
@@ -196,8 +198,8 @@ local function smart_vresize(step, direction)
 end
 
 -- Resize splits
-vim.keymap.set("n", "<S-A-Left>", function() smart_vresize(2, "left") end, { desc = "Smart vertical resize left" })
-vim.keymap.set("n", "<S-A-Right>", function() smart_vresize(2, "right") end, { desc = "Smart vertical resize right" })
+vim.keymap.set("n", "<S-A-Left>", function() smart_vresize(4, "left") end, { desc = "Smart vertical resize left" })
+vim.keymap.set("n", "<S-A-Right>", function() smart_vresize(4, "right") end, { desc = "Smart vertical resize right" })
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode

@@ -60,6 +60,7 @@ return { -- Autoformat
         -- Check if empty or only whitespace/{}
         local is_disabled = text:match '^%s*$' or text:match '^%s*{}%s*$'
         if is_disabled then
+          print("Formating is disabled because of the empty .prettierrc")
           return nil -- Disable formatting
         end
       end

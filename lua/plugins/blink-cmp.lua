@@ -28,6 +28,7 @@ return { -- Autocompletion
       opts = {},
     },
     'folke/lazydev.nvim',
+    "jdrupal-dev/css-vars.nvim",
   },
   --- @module 'blink.cmp'
   --- @type blink.cmp.Config
@@ -118,6 +119,12 @@ return { -- Autocompletion
             },
           },
         },
+      },
+    },
+    providers = {
+      css_vars = {
+        name = "css-vars",
+        module = "css-vars.blink",
       },
     },
     cmdline = {
