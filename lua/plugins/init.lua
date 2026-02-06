@@ -119,6 +119,17 @@ require('lazy').setup {
     lazy = true,
     ft = { 'fbs' },
   },
+  {
+    "lionyxml/gitlineage.nvim",
+    dependencies = {
+        "sindrets/diffview.nvim", -- optional, for open_diff feature
+    },
+    config = function()
+        require("gitlineage").setup{
+            keymap = "<leader>gl", -- set to nil to disable default keymap
+      }
+    end
+},
 
   require 'plugins/autopairs',
   require 'plugins/blink-cmp',
