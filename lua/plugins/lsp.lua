@@ -7,7 +7,6 @@ return {
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-      'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
@@ -256,25 +255,14 @@ return {
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-      -- Either merge all additional server configs from the `servers.mason` and `servers.others` tables
-      -- to the default language server configs as provided by nvim-lspconfig or
-      -- define a custom server config that's unavailable on nvim-lspconfig.
-      for server, config in pairs(vim.tbl_extend('keep', mason_servers, other_servers)) do
+      local all_servers = vim.tbl_extend('keep', mason_servers, other_servers)
+      for server, config in pairs(all_servers) do
         if not vim.tbl_isempty(config) then
           vim.lsp.config(server, config)
         end
       end
 
-      -- After configuring our language servers, we now enable them
-      require('mason-lspconfig').setup {
-        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_enable = true, -- automatically run vim.lsp.enable() for all servers that are installed via Mason
-      }
-
-      -- Manually run vim.lsp.enable for all language servers that are *not* installed via Mason
-      if not vim.tbl_isempty(other_servers) then
-        vim.lsp.enable(vim.tbl_keys(other_servers))
-      end
+      vim.lsp.enable(vim.tbl_keys(all_servers))
     end,
   },
   {

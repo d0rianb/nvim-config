@@ -41,6 +41,7 @@ end
 
 return { -- Autoformat
   'stevearc/conform.nvim',
+  event = 'BufWritePre',
   keys = {
     {
       '<leader>=',

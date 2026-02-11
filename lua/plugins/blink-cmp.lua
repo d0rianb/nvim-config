@@ -55,8 +55,8 @@ return { -- Autocompletion
         'fallback',
       },
       ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
-      ['<Up>'] = { 'select_prev', 'fallback' },
-      ['<Down>'] = { 'select_next', 'fallback' },
+      ['<Up>'] = { 'insert_prev', 'fallback' },
+      ['<Down>'] = { 'insert_next', 'fallback' },
     },
 
     appearance = {
@@ -121,12 +121,6 @@ return { -- Autocompletion
         },
       },
     },
-    providers = {
-      css_vars = {
-        name = "css-vars",
-        module = "css-vars.blink",
-      },
-    },
     cmdline = {
       enabled = true,
       keymap = {
@@ -154,9 +148,13 @@ return { -- Autocompletion
     },
 
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'lazydev', 'buffer' },
+      default = { 'lsp', 'path', 'snippets', 'lazydev', 'buffer', 'css_vars' },
       providers = {
         lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+        css_vars = {
+          name = 'css-vars',
+          module = 'css-vars.blink',
+        },
         path = {
           min_keyword_length = 0,
         },

@@ -43,7 +43,7 @@ return {
     local oxlint = lint.linters.oxlint
     oxlint.args = {
       '--config',
-      find_config({ 'oxlintrc.json', 'oxlintrc.jsonc' }, 'eslint.config.mjs'),
+      find_config({ 'oxlintrc.json', 'oxlintrc.jsonc', '.oxlintrc.json' }, '.oxlintrc.json'),
       '--format',
       'github',
       '--type-aware',
@@ -117,8 +117,13 @@ return {
 
     local ruff = lint.linters.ruff
     ruff.args = {
+      'check',
       '--config',
       find_config({ 'pyproject.toml', 'ruff.toml', '.ruff.toml' }, 'ruff.toml'),
+      '--output-format=json',
+      '--stdin-filename',
+      function() return vim.api.nvim_buf_get_name(0) end,
+      '-',
     }
 
     -- Autocommand to trigger linting

@@ -29,7 +29,7 @@ vim.diagnostic.config {
     },
     numhl = {
       [vim.diagnostic.severity.ERROR] = 'DiagnosticLineNrError',
-      [vim.diagnostic.severity.WARN] = 'DiagnosticLinWarn',
+      [vim.diagnostic.severity.WARN] = 'DiagnosticLineNrWarn',
       [vim.diagnostic.severity.INFO] = 'DiagnosticLineNrInfo',
       [vim.diagnostic.severity.HINT] = 'DiagnosticLineNrHint',
     },

@@ -9,31 +9,13 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup {
   install = {
-    colortheme = { 'palenight', 'tokyonight' },
+    colorscheme = { 'palenight', 'tokyonight' },
   },
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'mg979/vim-visual-multi', -- mutli cursors
-  { 'NMAC427/guess-indent.nvim', opts = {} },
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
-  --    require('gitsigns').setup({ ... })
-  --
-  -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '▎' },
-        change = { text = '▎' },
-        delete = { text = '▎' },
-        topdelete = { text = '▎' },
-        changedelete = { text = '▎' },
-      },
-    },
-  },
   {
     'olrtg/nvim-emmet',
     config = function() vim.keymap.set({ 'n', 'v', 'i' }, '<A-Tab>', require('nvim-emmet').wrap_with_abbreviation) end,
@@ -44,16 +26,6 @@ require('lazy').setup {
       require('tint').setup {
         tint = -20,
         saturation = 0.6,
-      }
-    end,
-  },
-  {
-    'kylechui/nvim-surround',
-    version = '*', -- Use for stability; omit to use `main` branch for the latest features
-    event = 'VeryLazy',
-    config = function()
-      require('nvim-surround').setup {
-        -- Configuration here, or leave empty to use defaults
       }
     end,
   },
