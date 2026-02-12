@@ -7,6 +7,7 @@ return {
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+      'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
@@ -234,18 +235,14 @@ return {
         -- No mason servers
       }
 
-      require('mason').setup{ 
-        -- registries = {
-        --   "file:/Users/dorian/Documents/Code/mason-registry"
-        -- }
-      }
+      require('mason').setup {}
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(mason_servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        -- 'oxfmt', -- Not added in mason registry, wainting for https://github.com/mason-org/mason-registry/pull/12767
+        'oxfmt',
         'eslint_d',
         'stylelint',
         'htmlhint',
@@ -262,7 +259,16 @@ return {
         end
       end
 
-      vim.lsp.enable(vim.tbl_keys(all_servers))
+      -- After configuring our language servers, we now enable them
+      require('mason-lspconfig').setup {
+        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+        automatic_enable = true, -- automatically run vim.lsp.enable() for all servers that are installed via Mason
+      }
+
+      -- Manually run vim.lsp.enable for all language servers that are *not* installed via Mason
+      if not vim.tbl_isempty(other_servers) then
+        vim.lsp.enable(vim.tbl_keys(other_servers))
+      end
     end,
   },
   {
