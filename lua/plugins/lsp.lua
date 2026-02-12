@@ -243,6 +243,7 @@ return {
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'oxfmt',
+        'oxlint',
         'eslint_d',
         'stylelint',
         'htmlhint',
