@@ -73,6 +73,21 @@ return {
     },
     opts = {
       enable_diagnostics = false,
+      default_component_configs = {
+        git_status = {
+          symbols = {
+            added = '+',
+            deleted = '-',
+            modified = '~',
+            renamed = 'r',
+            untracked = '?',
+            ignored = 'i',
+            unstaged = '',
+            staged = 'S',
+            conflict = 'x',
+          },
+        },
+      },
       filesystem = {
         hijack_netrw_behavior = 'open_current',
         follow_current_file = {
