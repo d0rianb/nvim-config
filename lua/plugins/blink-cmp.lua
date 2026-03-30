@@ -28,7 +28,7 @@ return { -- Autocompletion
       opts = {},
     },
     'folke/lazydev.nvim',
-    "jdrupal-dev/css-vars.nvim",
+    'jdrupal-dev/css-vars.nvim',
   },
   --- @module 'blink.cmp'
   --- @type blink.cmp.Config
