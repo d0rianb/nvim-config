@@ -1,44 +1,3 @@
--- Helper function for prettier args
-local function generate_prettier_args(self, ctx)
-  local config_files = {
-    '.prettierrc',
-    '.prettierrc.json',
-    '.prettierrc.yml',
-    '.prettierrc.yaml',
-    '.prettierrc.json5',
-    '.prettierrc.js',
-    '.prettierrc.cjs',
-    '.prettierrc.mjs',
-    'prettier.config.js',
-    'prettier.config.cjs',
-    'prettier.config.mjs',
-  }
-
-  -- Check for local config
-  local check_cwd = require('conform.util').root_file(config_files)
-  local has_local_config = check_cwd(self, ctx) ~= nil
-
-  -- Check for package.json with prettier config
-  if not has_local_config then
-    local package_json = vim.fn.findfile('package.json', '.;')
-    if package_json ~= '' then
-      local content = vim.fn.readfile(package_json)
-      if vim.fn.match(content, '"prettier"') >= 0 then
-        has_local_config = true
-      end
-    end
-  end
-
-  local base_args = { '--stdin-filepath', '$FILENAME' }
-
-  if not has_local_config then
-    local global_config = vim.fn.stdpath 'config' .. '/linter-configs/.prettierrc'
-    return vim.list_extend(base_args, { '--config', global_config })
-  end
-
-  return base_args
-end
-
 return { -- Autoformat
   'stevearc/conform.nvim',
   event = 'BufWritePre',
@@ -54,14 +13,14 @@ return { -- Autoformat
     notify_on_error = false,
     format_on_save = function(bufnr)
       -- Check if .prettierrc exists and is empty or contains only {}
-      local prettierrc = vim.fn.findfile('.prettierrc', '.;')
-      if prettierrc ~= '' then
-        local content = vim.fn.readfile(prettierrc)
+      local oxfmtrc = vim.fn.findfile('.oxmfmt.jsonc', '.;')
+      if oxfmtrc ~= '' then
+        local content = vim.fn.readfile(oxfmtrc)
         local text = table.concat(content, '\n')
         -- Check if empty or only whitespace/{}
         local is_disabled = text:match '^%s*$' or text:match '^%s*{}%s*$'
         if is_disabled then
-          print("Formating is disabled because of the empty .prettierrc")
+          print 'Formating is disabled because of the empty .prettierrc'
           return nil -- Disable formatting
         end
       end
@@ -78,20 +37,15 @@ return { -- Autoformat
       typescript = { 'oxfmt' },
       javascriptreact = { 'oxfmt' },
       typescriptreact = { 'oxfmt' },
-      html = { 'prettier' },
-      css = { 'prettier' },
-      json = { 'prettier' },
-      yaml = { 'prettier' },
-      markdown = { 'prettier' },
+      html = { 'oxfmt' },
+      css = { 'oxfmt' },
+      json = { 'oxfmt' },
+      yaml = { 'oxfmt' },
+      markdown = { 'oxfmt' },
       python = {}, -- Ruff is initialized by nvim-lint
     },
     formatters = {
-      prettier = {
-        args = function(self, ctx) return generate_prettier_args(self, ctx) end,
-      },
-      prettierd = {
-        args = function(self, ctx) return generate_prettier_args(self, ctx) end,
-      },
+      oxfmt = {},
     },
   },
 }
