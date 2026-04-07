@@ -46,7 +46,16 @@ return { -- Autoformat
       python = {}, -- Ruff is initialized by nvim-lint
     },
     formatters = {
-      oxfmt = {},
+      oxfmt = {
+        command = 'vp',
+        args = { 'fmt', '--write', '$FILENAME' },
+        stdin = false,
+        cwd = function(self, ctx)
+          local found = vim.fs.find({ 'vite.config.ts', '.oxfmtrc.json', '.oxfmtrc.jsonc' }, { upward = true, path = ctx.dirname })
+          return found[1] and vim.fn.fnamemodify(found[1], ':h') or nil
+        end,
+        require_cwd = true,
+      },
     },
   },
 }
