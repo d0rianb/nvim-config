@@ -78,6 +78,9 @@ vim.opt.laststatus = 3
 
 vim.opt.swapfile = false
 
+-- Load project-local .nvim.lua files
+vim.opt.exrc = true
+
 -- Disable the spacebar as its used as leader key
 vim.keymap.set({ 'v', 'n' }, '<leader>', '<nop>', { silent = true })
 
@@ -173,11 +176,11 @@ vim.keymap.set('n', '<C-k><Up>', '<C-w>s<C-w><Up>', { desc = 'Create a panel at 
 local function smart_vresize(step, direction)
   step = step or 2
   -- If there is a window on the left, we are not the leftmost.
-  local has_left = vim.fn.winnr("h") ~= vim.fn.winnr()
+  local has_left = vim.fn.winnr 'h' ~= vim.fn.winnr()
   -- If there is a window on the right, we are not the rightmost.
-  local has_right = vim.fn.winnr("l") ~= vim.fn.winnr()
+  local has_right = vim.fn.winnr 'l' ~= vim.fn.winnr()
   local delta = 0
-  if direction == "left" then
+  if direction == 'left' then
     -- On a right split, Left should grow (take from left).
     -- On a left split, Left should shrink.
     if has_left and not has_right then
@@ -185,7 +188,7 @@ local function smart_vresize(step, direction)
     else
       delta = -step
     end
-  elseif direction == "right" then
+  elseif direction == 'right' then
     -- On a left split, Right should grow (take from right).
     -- On a right split, Right should shrink.
     if has_right and not has_left then
@@ -194,12 +197,12 @@ local function smart_vresize(step, direction)
       delta = -step
     end
   end
-  vim.cmd("vertical resize " .. (delta > 0 and "+" or "") .. delta)
+  vim.cmd('vertical resize ' .. (delta > 0 and '+' or '') .. delta)
 end
 
 -- Resize splits
-vim.keymap.set("n", "<S-A-Left>", function() smart_vresize(4, "left") end, { desc = "Smart vertical resize left" })
-vim.keymap.set("n", "<S-A-Right>", function() smart_vresize(4, "right") end, { desc = "Smart vertical resize right" })
+vim.keymap.set('n', '<S-A-Left>', function() smart_vresize(4, 'left') end, { desc = 'Smart vertical resize left' })
+vim.keymap.set('n', '<S-A-Right>', function() smart_vresize(4, 'right') end, { desc = 'Smart vertical resize right' })
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
