@@ -20,7 +20,7 @@ return { -- Autoformat
         -- Check if empty or only whitespace/{}
         local is_disabled = text:match '^%s*$' or text:match '^%s*{}%s*$'
         if is_disabled then
-          print 'Formating is disabled because of the empty .prettierrc'
+          print 'Formating is disabled because of the empty .oxfmt'
           return nil -- Disable formatting
         end
       end
@@ -38,6 +38,7 @@ return { -- Autoformat
       javascriptreact = { 'oxfmt' },
       typescriptreact = { 'oxfmt' },
       html = { 'oxfmt' },
+      vue = { 'oxfmt' },
       css = { 'oxfmt' },
       json = { 'oxfmt' },
       yaml = { 'oxfmt' },
