@@ -173,6 +173,25 @@ vim.keymap.set('n', '<C-k><Right>', '<C-w>v', { desc = 'Create a panel at the ri
 vim.keymap.set('n', '<C-k><Down>', '<C-w>s', { desc = 'Create a panel at the bottom' })
 vim.keymap.set('n', '<C-k><Up>', '<C-w>s<C-w><Up>', { desc = 'Create a panel at the top' })
 
+-- LSP incremental selection
+vim.keymap.set({ 'x' }, '[n', function() require('vim.treesitter._select').select_prev(vim.v.count1) end, { desc = 'Select previous treesitter node' })
+vim.keymap.set({ 'x' }, ']n', function() require('vim.treesitter._select').select_next(vim.v.count1) end, { desc = 'Select next treesitter node' })
+vim.keymap.set({ 'x', 'o' }, '<A-Up>', function()
+  if vim.treesitter.get_parser(nil, nil, { error = false }) then
+    require('vim.treesitter._select').select_parent(vim.v.count1)
+  else
+    vim.lsp.buf.selection_range(vim.v.count1)
+  end
+end, { desc = 'Select parent treesitter node or outer incremental lsp selections' })
+
+vim.keymap.set({ 'x', 'o' }, '<A-Down>', function()
+  if vim.treesitter.get_parser(nil, nil, { error = false }) then
+    require('vim.treesitter._select').select_child(vim.v.count1)
+  else
+    vim.lsp.buf.selection_range(-vim.v.count1)
+  end
+end, { desc = 'Select child treesitter node or inner incremental lsp selections' })
+
 local function smart_vresize(step, direction)
   step = step or 2
   -- If there is a window on the left, we are not the leftmost.

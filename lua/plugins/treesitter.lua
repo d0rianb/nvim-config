@@ -38,22 +38,6 @@ return {
       })
     end,
   },
-
-  {
-    'MeanderingProgrammer/treesitter-modules.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    opts = {
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = false,
-          node_incremental = '<A-Up>',
-          scope_incremental = false,
-          node_decremental = '<A-Down>',
-        },
-      },
-    },
-  },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
     branch = 'main',
