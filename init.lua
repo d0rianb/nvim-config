@@ -81,6 +81,9 @@ vim.opt.swapfile = false
 -- Load project-local .nvim.lua files
 vim.opt.exrc = true
 
+-- to use remote nvim with lazygit
+vim.env.NVIM = vim.v.servername
+
 -- Disable the spacebar as its used as leader key
 vim.keymap.set({ 'v', 'n' }, '<leader>', '<nop>', { silent = true })
 

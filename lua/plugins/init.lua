@@ -119,6 +119,7 @@ require('lazy').setup {
   require 'plugins/blink-cmp',
   require 'plugins/telescope',
   require 'plugins/mini',
+  require 'plugins/tabs',
   require 'plugins/lsp',
   require 'plugins/treesitter',
   require 'plugins/gitsigns',

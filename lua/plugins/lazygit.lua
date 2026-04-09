@@ -22,7 +22,6 @@ return {
       require('telescope').load_extension 'lazygit'
       -- vim.g.lazygit_floating_window_use_plenary = 0
       -- vim.g.lazygit_use_neovim_remote = 1
-      vim.env.NVIM = vim.v.servername
     end,
   },
   {
