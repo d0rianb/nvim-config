@@ -35,7 +35,7 @@ return {
           '--hidden',
         },
         color_devicons = true,
-        file_ignore_patterns = { 'node_modules', 'plugged', '.git', '.DS_Store', '__pycache__', 'venv', 'dist', 'build' },
+        file_ignore_patterns = { 'node_modules', 'plugged', '.git/', '.DS_Store', '__pycache__', 'venv', 'dist', 'build' },
         layout_config = {
           horizontal = {
             width = 0.8,
