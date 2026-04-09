@@ -82,6 +82,11 @@ return {
           if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
             map('<leader>th', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end, '[T]oggle Inlay [H]ints')
           end
+
+          -- Disable LSP document color highlights (colored overlays on CSS values)
+          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentColor, event.buf) then
+            vim.lsp.document_color.enable(false, { bufnr = event.buf })
+          end
         end,
       })
 
@@ -137,14 +142,15 @@ return {
           capabilities = capabilities,
           settings = {
             vtsls = {
+              autoUseWorkspaceTsdk = true,
               tsserver = {
                 globalPlugins = { vue_plugin },
               },
-              typescript = {
-                updateImportsOnFileMove = { enabled = 'always' },
-                suggest = {
-                  completeFunctionCalls = true,
-                },
+            },
+            typescript = {
+              updateImportsOnFileMove = { enabled = 'always' },
+              suggest = {
+                completeFunctionCalls = true,
               },
             },
           },
