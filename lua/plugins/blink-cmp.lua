@@ -55,8 +55,22 @@ return { -- Autocompletion
         'fallback',
       },
       ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
-      ['<Up>'] = { 'insert_prev', 'fallback' },
-      ['<Down>'] = { 'insert_next', 'fallback' },
+      ['<Up>'] = {
+        function(cmp)
+          if cmp.is_menu_visible() then
+            return cmp.insert_prev()
+          end
+        end,
+        'fallback',
+      },
+      ['<Down>'] = {
+        function(cmp)
+          if cmp.is_menu_visible() then
+            return cmp.insert_next()
+          end
+        end,
+        'fallback',
+      },
     },
 
     appearance = {
@@ -67,6 +81,11 @@ return { -- Autocompletion
     },
 
     completion = {
+      trigger = {
+        show_on_insert = false,
+        show_on_insert_on_trigger_character = false,
+        show_on_accept_on_trigger_character = false,
+      },
       accept = {
         auto_brackets = {
           enabled = true, -- Whether to auto-insert brackets for functions completion
