@@ -18,17 +18,14 @@ return {
     keys = {
       { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
-    config = function()
-      require('telescope').load_extension 'lazygit'
-      -- vim.g.lazygit_floating_window_use_plenary = 0
-      -- vim.g.lazygit_use_neovim_remote = 1
-    end,
+    config = function() require('telescope').load_extension 'lazygit' end,
   },
   {
     'sindrets/diffview.nvim',
     dependencies = 'nvim-lua/plenary.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
     config = function()
+      vim.opt.fillchars:append { diff = '╱' }
       vim.keymap.set('n', '<leader>gd', '<cmd>DiffviewOpen<cr>', { desc = 'Diff working tree' })
       vim.keymap.set('n', '<leader>gD', '<cmd>DiffviewClose<cr>', { desc = 'Close diffview' })
     end,

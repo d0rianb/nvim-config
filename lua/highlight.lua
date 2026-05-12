@@ -38,3 +38,20 @@ vim.diagnostic.config {
 
 -- Transparent background for floating windows
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+
+----------- Diff view  ---------------
+local hl = vim.api.nvim_set_hl
+
+-- Very subtle tones, GitHub dark style
+hl(0, 'DiffAdd', { bg = '#1c2a1c' }) -- very dark green
+hl(0, 'DiffDelete', { bg = '#2a1c1c' }) -- very dark red
+hl(0, 'DiffChange', { bg = '#1c1c2a' }) -- very dark blue
+hl(0, 'DiffText', { bg = '#264026' }) -- slightly brighter green on the changed line
+
+-- Diffview specific
+hl(0, 'DiffviewDiffAdd', { bg = '#1c2a1c' })
+hl(0, 'DiffviewDiffDelete', { bg = '#2a1c1c' })
+hl(0, 'DiffviewDiffChange', { bg = '#1c1c2a' })
+hl(0, 'DiffviewDiffText', { bg = '#264026' })
+hl(0, 'DiffviewDiffAddAsDelete', { bg = '#2a1c1c' })
+hl(0, 'DiffviewEmpty', { fg = '#8888aa', bg = '#1e1e2e' })
