@@ -1,3 +1,11 @@
+local function close_tab()
+  if vim.fn.tabpagenr('$') > 1 then
+    vim.cmd.tabclose()
+  else
+    vim.notify('Cannot close the last tab page', vim.log.levels.WARN)
+  end
+end
+
 return {
   'nanozuki/tabby.nvim',
   event = 'TabNew',
@@ -23,8 +31,8 @@ return {
   end,
   keys = {
     { '<leader>tn', '<cmd>tabnew<cr>', desc = 'New tab' },
-    { '<leader>tc', '<cmd>tabclose<cr>', desc = 'Close tab' },
-    { '<tab>', '<cmd>tabnext<cr>', desc = 'Next tab' },
-    { '<s-tab>', '<cmd>tabprev<cr>', desc = 'Prev tab' },
+    { '<leader>tx', close_tab, desc = 'Close tab' },
+    { ']t', '<cmd>tabnext<cr>', desc = 'Next tab' },
+    { '[t', '<cmd>tabprev<cr>', desc = 'Prev tab' },
   },
 }
