@@ -89,7 +89,10 @@ vim.keymap.set({ 'v', 'n' }, '<leader>', '<nop>', { silent = true })
 
 -- Disable auto comment on new-line
 vim.api.nvim_create_autocmd('BufEnter', {
-  callback = function() vim.opt.formatoptions:remove { 'r', 'o' } end,
+  callback = function()
+    vim.opt_local.formatoptions:remove { 'r', 'o' }
+    vim.opt_local.formatoptions:append 'j'
+  end,
 })
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
