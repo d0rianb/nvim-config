@@ -56,13 +56,18 @@ return {
     cmd = 'Neotree',
     lazy = false, -- neo-tree will lazily load itself
     init = function()
+      local group = vim.api.nvim_create_augroup('NeoTreeInit', { clear = true })
       vim.api.nvim_create_autocmd('BufEnter', {
-        group = vim.api.nvim_create_augroup('NeoTreeInit', { clear = true }),
+        group = group,
         callback = function()
           local f = vim.fn.expand '%:p'
           if vim.fn.isdirectory(f) ~= 0 then
-            vim.cmd('Neotree current dir=' .. f)
-            vim.api.nvim_clear_autocmds { group = 'NeoTreeInit' }
+            vim.api.nvim_clear_autocmds { group = group }
+            require('neo-tree.command').execute {
+              action = 'focus',
+              position = 'current',
+              dir = f,
+            }
           end
         end,
       })
