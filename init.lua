@@ -168,10 +168,17 @@ vim.keymap.set('n', '<A-o>', 'o<esc>', { desc = 'Inset line below' })
 vim.keymap.set('n', '<A-O>', 'O<esc>', { desc = 'Inset line above' })
 
 -- Keybinds to make split navigation easier.
-vim.keymap.set('n', '<A-Left>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<A-Right>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<A-Down>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<A-Up>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+local function map_window_nav(keys, direction, desc)
+  for _, key in ipairs(keys) do
+    vim.keymap.set('n', key, '<C-w>' .. direction, { desc = desc })
+    vim.keymap.set('t', key, '<C-\\><C-n><C-w>' .. direction, { desc = desc })
+  end
+end
+
+map_window_nav({ '<A-Left>', '<M-b>' }, 'h', 'Move focus to the left window')
+map_window_nav({ '<A-Right>', '<M-f>' }, 'l', 'Move focus to the right window')
+map_window_nav({ '<A-Down>' }, 'j', 'Move focus to the lower window')
+map_window_nav({ '<A-Up>' }, 'k', 'Move focus to the upper window')
 
 -- Create panels
 vim.keymap.set('n', '<C-k><Left>', '<C-w>v<C-w><Left>', { desc = 'Create a panel at the left' })
