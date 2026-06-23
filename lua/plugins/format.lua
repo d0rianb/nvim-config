@@ -12,15 +12,14 @@ return { -- Autoformat
   opts = {
     notify_on_error = false,
     format_on_save = function(bufnr)
-      -- Check if .prettierrc exists and is empty or contains only {}
-      local oxfmtrc = vim.fn.findfile('.oxmfmt.jsonc', '.;')
+      -- Empty Oxfmt config disables format-on-save for that project.
+      local oxfmtrc = vim.fn.findfile('.oxfmtrc.jsonc', '.;')
       if oxfmtrc ~= '' then
         local content = vim.fn.readfile(oxfmtrc)
         local text = table.concat(content, '\n')
-        -- Check if empty or only whitespace/{}
         local is_disabled = text:match '^%s*$' or text:match '^%s*{}%s*$'
         if is_disabled then
-          print 'Formating is disabled because of the empty .oxfmt'
+          print 'Formatting is disabled because of the empty .oxfmtrc.jsonc'
           return nil -- Disable formatting
         end
       end
