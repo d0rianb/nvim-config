@@ -15,6 +15,23 @@ local function find_config(filenames, fallback)
   return config_path .. fallback
 end
 
+local function has_stylelint_config(bufnr)
+  local bufname = vim.api.nvim_buf_get_name(bufnr)
+  local root = vim.fs.dirname(bufname)
+  local config_files = {
+    'stylelint.config.js',
+    'stylelint.config.mjs',
+    'stylelint.config.cjs',
+    'stylelint.config.ts',
+    '.stylelintrc',
+    '.stylelintrc.json',
+    '.stylelintrc.js',
+    '.stylelintrc.cjs',
+  }
+
+  return vim.fs.find(config_files, { upward = true, path = root, type = 'file' })[1] ~= nil
+end
+
 -- Linting Configuration
 return {
   'mfussenegger/nvim-lint',
@@ -32,11 +49,9 @@ return {
       css = { 'stylelint' },
       scss = { 'stylelint' },
       less = { 'stylelint' },
-      html = { 'htmlhint' },
       markdown = { 'vale' },
       text = { 'vale' },
       lua = { 'luacheck' },
-      rust = { 'clippy' },
       python = { 'ruff' },
     }
 
@@ -49,42 +64,6 @@ return {
       '--type-aware',
     }
 
-    -- ESLint_d: use daemon mode for faster linting
-    vim.env.ESLINT_D_PPID = vim.fn.getpid()
-
-    -- ESLint_d: find eslint.config.mjs, eslint.config.js, or .eslintrc.json
-    local eslint_d = lint.linters.eslint_d
-    eslint_d.args = {
-      '--config',
-      find_config({ 'eslint.config.mjs', 'eslint.config.js', '.eslintrc.json', '.eslintrc.js' }, 'eslint.config.mjs'),
-      '--format',
-      'json',
-      '--stdin',
-      '--stdin-filename',
-      vim.api.nvim_buf_get_name(0),
-    }
-
-    -- Stylelint: find .stylelintrc.json or stylelint.config.js
-    local stylelint = lint.linters.stylelint
-    stylelint.args = {
-      '--config',
-      find_config({ '.stylelintrc.json', 'stylelint.config.js', '.stylelintrc' }, '.stylelintrc.json'),
-      '--formatter',
-      'json',
-      '--stdin-filename',
-      vim.api.nvim_buf_get_name(0),
-    }
-
-    -- HTMLHint: find .htmlhintrc
-    local htmlhint = lint.linters.htmlhint
-    htmlhint.args = {
-      '--config',
-      find_config({ '.htmlhintrc', '.htmlhintrc.json' }, '.htmlhintrc'),
-      '--format',
-      'json',
-    }
-
-    -- Luacheck: find .luacheckrc
     local luacheck = lint.linters.luacheck
     luacheck.args = {
       '--config',
@@ -97,24 +76,6 @@ return {
       '-',
     }
 
-    -- Vale: find .vale.ini
-    local vale = lint.linters.vale
-    vale.args = {
-      '--config',
-      find_config({ '.vale.ini', '_vale.ini' }, '.vale.ini'),
-      '--output=JSON',
-    }
-    vale.ignore_exitcode = true
-    -- Vale: convert errors to HINT severity
-    local original_vale_parser = vale.parser
-    vale.parser = function(output, bufnr, linter_cwd)
-      local diagnostics = original_vale_parser(output, bufnr, linter_cwd)
-      for _, diag in ipairs(diagnostics) do
-        diag.severity = vim.diagnostic.severity.HINT
-      end
-      return diagnostics
-    end
-
     local ruff = lint.linters.ruff
     ruff.args = {
       'check',
@@ -126,14 +87,44 @@ return {
       '-',
     }
 
+    local vale = lint.linters.vale
+    vale.args = {
+      '--config',
+      find_config({ '.vale.ini', '_vale.ini' }, '.vale.ini'),
+      '--output=JSON',
+    }
+    vale.ignore_exitcode = true
+    local original_vale_parser = vale.parser
+    vale.parser = function(output, bufnr, linter_cwd)
+      local diagnostics = original_vale_parser(output, bufnr, linter_cwd)
+      for _, diagnostic in ipairs(diagnostics) do
+        diagnostic.severity = vim.diagnostic.severity.HINT
+      end
+      return diagnostics
+    end
+
     -- Autocommand to trigger linting
     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
+    local function try_lint()
+      local bufnr = vim.api.nvim_get_current_buf()
+      local stylelint_enabled = has_stylelint_config(bufnr)
+
+      -- Oxfmt formats CSS; Stylelint only runs when a project opts in with config.
+      if not stylelint_enabled then
+        vim.diagnostic.reset(lint.get_namespace 'stylelint', bufnr)
+      end
+
+      lint.try_lint(nil, {
+        filter = function(linter) return linter.name ~= 'stylelint' or stylelint_enabled end,
+      })
+    end
+
     vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
       group = lint_augroup,
-      callback = function() lint.try_lint() end,
+      callback = try_lint,
     })
 
     -- Manual lint command
-    vim.api.nvim_create_user_command('Lint', function() lint.try_lint() end, { desc = 'Trigger linting for current file' })
+    vim.api.nvim_create_user_command('Lint', try_lint, { desc = 'Trigger linting for current file' })
   end,
 }
