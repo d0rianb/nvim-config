@@ -164,7 +164,6 @@ vim.keymap.set('n', '<A-O>', 'O<esc>', { desc = 'Inset line above' })
 local function map_window_nav(keys, direction, desc)
   for _, key in ipairs(keys) do
     vim.keymap.set('n', key, '<C-w>' .. direction, { desc = desc })
-    vim.keymap.set('t', key, '<C-\\><C-n><C-w>' .. direction, { desc = desc })
   end
 end
 
