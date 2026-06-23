@@ -207,7 +207,7 @@ return {
             },
           },
         },
-        -- ty = { capabilities = capabilities },
+        ty = { capabilities = capabilities },
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
