@@ -115,6 +115,7 @@ return {
         clangd = {},
         cssls = {},
         html = {},
+        marksman = {},
         emmet_language_server = {
           filetypes = { 'html', 'css', 'less', 'sass', 'scss', 'vue' },
           init_options = {
@@ -250,9 +251,8 @@ return {
         'stylua', -- Used to format Lua code
         'oxfmt',
         'oxlint',
-        'eslint_d',
+        'ruff',
         'stylelint',
-        'htmlhint',
         'vale',
         'luacheck',
       })
