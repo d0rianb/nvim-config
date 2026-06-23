@@ -28,7 +28,6 @@ return { -- Autocompletion
       opts = {},
     },
     'folke/lazydev.nvim',
-    'jdrupal-dev/css-vars.nvim',
   },
   --- @module 'blink.cmp'
   --- @type blink.cmp.Config
@@ -167,13 +166,9 @@ return { -- Autocompletion
     },
 
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'lazydev', 'buffer', 'css_vars' },
+      default = { 'lsp', 'path', 'snippets', 'lazydev', 'buffer' },
       providers = {
         lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-        css_vars = {
-          name = 'css-vars',
-          module = 'css-vars.blink',
-        },
         path = {
           min_keyword_length = 0,
         },
