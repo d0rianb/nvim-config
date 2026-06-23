@@ -98,12 +98,12 @@ return { -- Autocompletion
         treesitter_highlighting = true,
         window = {
           border = 'rounded',
-          winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
+          winhighlight = 'Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
         },
       },
       menu = {
         border = 'rounded',
-        winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
+        winhighlight = 'Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
         draw = {
           gap = 2,
           treesitter = { 'lsp' },

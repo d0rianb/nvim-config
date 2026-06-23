@@ -38,6 +38,8 @@ vim.diagnostic.config {
 
 -- Transparent background for floating windows
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'FloatBorder', { fg = '#5f6687', bg = 'none' })
+vim.api.nvim_set_hl(0, 'PmenuBorder', { fg = '#5f6687', bg = 'none' })
 
 ----------- Diff view  ---------------
 local hl = vim.api.nvim_set_hl
