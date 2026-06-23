@@ -93,6 +93,9 @@ return {
           },
         },
       },
+      clipboard = {
+        sync = 'universal',
+      },
       filesystem = {
         hijack_netrw_behavior = 'open_current',
         follow_current_file = {
