@@ -5,10 +5,18 @@ return {
   opts = {
     lazygit = {
       configure = true,
-      opts = {
+      config = {
         os = { editPreset = 'nvim-remote' },
-        win = {
-          style = 'lazygit',
+      },
+    },
+    styles = {
+      lazygit = {
+        backdrop = { transparent = true, blend = 85 },
+        border = 'rounded',
+        width = 0.9,
+        height = 0.9,
+        wo = {
+          winblend = 0,
         },
       },
     },
