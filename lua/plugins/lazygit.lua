@@ -20,16 +20,4 @@ return {
     },
     config = function() require('telescope').load_extension 'lazygit' end,
   },
-  {
-    'sindrets/diffview.nvim',
-    dependencies = 'nvim-lua/plenary.nvim',
-    cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
-    config = function()
-      vim.opt.fillchars:append { diff = '╱' }
-      vim.g.lazygit_use_neovim_remote = 0
-      vim.keymap.set('n', '<leader>gd', '<cmd>DiffviewOpen<cr>', { desc = 'Diff working tree' })
-      vim.keymap.set('n', '<leader>gD', '<cmd>DiffviewClose<cr>', { desc = 'Close diffview' })
-    end,
-  },
-  { 'esmuellert/codediff.nvim', cmd = 'CodeDiff' },
 }

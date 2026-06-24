@@ -105,9 +105,6 @@ require('lazy').setup {
   },
   {
     'lionyxml/gitlineage.nvim',
-    dependencies = {
-      'sindrets/diffview.nvim', -- optional, for open_diff feature
-    },
     opts = {
       keymap = '<leader>gl', -- set to nil to disable default keymap
     },
@@ -126,6 +123,7 @@ require('lazy').setup {
   require 'plugins/lint',
   require 'plugins/format',
   require 'plugins/lazygit',
+  require 'plugins/codediff',
   require 'plugins/trouble',
   --
   require 'colortheme',
