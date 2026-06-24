@@ -26,6 +26,7 @@ return {
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
     config = function()
       vim.opt.fillchars:append { diff = '╱' }
+      vim.g.lazygit_use_neovim_remote = 0
       vim.keymap.set('n', '<leader>gd', '<cmd>DiffviewOpen<cr>', { desc = 'Diff working tree' })
       vim.keymap.set('n', '<leader>gD', '<cmd>DiffviewClose<cr>', { desc = 'Close diffview' })
     end,

@@ -23,6 +23,7 @@ return {
         end
 
         -- Navigation
+        -- Next hunk
         map('n', ']c', function()
           if vim.wo.diff then
             vim.cmd.normal { ']c', bang = true }
@@ -31,6 +32,7 @@ return {
           end
         end, { desc = 'Jump to next git [c]hange' })
 
+        -- Previous hunk
         map('n', '[c', function()
           if vim.wo.diff then
             vim.cmd.normal { '[c', bang = true }
