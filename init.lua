@@ -150,7 +150,8 @@ for _, key in ipairs { 'd', 'D', 'c', 'C' } do
 end
 
 -- Preserve clipboard when pasting over selection
-vim.keymap.set('v', 'p', '"_dP', { noremap = true })
+vim.keymap.set('v', 'p', '"_d]P', { noremap = true })
+vim.keymap.set({ 'n', 'x', 'o' }, 'p', ']p==') -- https://neovim.io/doc/user/change/#%5Dp
 
 -- Preserve the selection when shifting
 vim.keymap.set('x', '>', '>gv', { desc = 'Preserve the selection while shifting right' })
