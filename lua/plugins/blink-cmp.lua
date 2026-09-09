@@ -54,6 +54,40 @@ return { -- Autocompletion
         'fallback',
       },
       ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+      ['<A-Tab>'] = {
+        function(cmp)
+          local emmet_filetypes = {
+            html = true,
+            php = true,
+            css = true,
+            less = true,
+            sass = true,
+            scss = true,
+            vue = true,
+          }
+
+          if not emmet_filetypes[vim.bo.filetype] then
+            return
+          end
+
+          local accept_emmet = function()
+            for index, item in ipairs(cmp.get_items()) do
+              if vim.tbl_contains({ 'emmet_language_server', 'emmet-language-server', 'emmet_ls' }, item.client_name) then
+                return cmp.accept { index = index }
+              end
+            end
+
+            return cmp.select_and_accept()
+          end
+
+          if cmp.is_visible() then
+            return accept_emmet()
+          end
+
+          return cmp.show { providers = { 'lsp' }, initial_selected_item_idx = 1, callback = accept_emmet }
+        end,
+        'fallback',
+      },
       ['<Up>'] = {
         function(cmp)
           if cmp.is_menu_visible() then

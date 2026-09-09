@@ -16,7 +16,7 @@ require('lazy').setup {
 
   {
     'olrtg/nvim-emmet',
-    config = function() vim.keymap.set({ 'n', 'v', 'i' }, '<A-Tab>', require('nvim-emmet').wrap_with_abbreviation) end,
+    config = function() vim.keymap.set({ 'n', 'v' }, '<A-Tab>', require('nvim-emmet').wrap_with_abbreviation, { desc = 'Emmet wrap' }) end,
   },
   {
     'levouh/tint.nvim',
@@ -24,6 +24,10 @@ require('lazy').setup {
       require('tint').setup {
         tint = -20,
         saturation = 0.6,
+        window_ignore_function = function(winid)
+          local ok, buf = pcall(vim.api.nvim_win_get_buf, winid)
+          return ok and vim.b[buf].snacks_terminal ~= nil
+        end,
       }
     end,
   },

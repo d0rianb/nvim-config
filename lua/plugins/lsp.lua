@@ -117,7 +117,7 @@ return {
         html = {},
         marksman = {},
         emmet_language_server = {
-          filetypes = { 'html', 'css', 'less', 'sass', 'scss', 'vue' },
+          filetypes = { 'html', 'php', 'css', 'less', 'sass', 'scss', 'vue' },
           init_options = {
             html = {},
           },

@@ -151,6 +151,7 @@ end
 
 -- Preserve clipboard when pasting over selection
 vim.keymap.set('v', 'p', '"_d]P', { noremap = true })
+vim.keymap.set('v', 'P', '"_d]P', { noremap = true })
 vim.keymap.set({ 'n', 'x', 'o' }, 'p', ']p==') -- https://neovim.io/doc/user/change/#%5Dp
 
 -- Preserve the selection when shifting
