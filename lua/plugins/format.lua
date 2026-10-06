@@ -45,16 +45,19 @@ return { -- Autoformat
       python = {}, -- Ruff is initialized by nvim-lint
     },
     formatters = {
-      oxfmt = {
-        command = 'vp',
-        args = { 'fmt', '--write', '$FILENAME' },
-        stdin = false,
-        cwd = function(self, ctx)
-          local found = vim.fs.find({ 'vite.config.ts', '.oxfmtrc.json', '.oxfmtrc.jsonc' }, { upward = true, path = ctx.dirname })
-          return found[1] and vim.fn.fnamemodify(found[1], ':h') or nil
-        end,
-        require_cwd = true,
-      },
+      oxfmt = function(bufnr)
+        local dirname = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
+        for _, path in ipairs(vim.fs.find('package.json', { upward = true, path = dirname, limit = math.huge })) do
+          local ok, package = pcall(function() return vim.json.decode(table.concat(vim.fn.readfile(path), '\n')) end)
+          if ok and type(package) == 'table' and ((package.dependencies or {})['vite-plus'] or (package.devDependencies or {})['vite-plus']) then
+            return {
+              command = 'vp',
+              args = { 'fmt', '--stdin-filepath', '$FILENAME' },
+              cwd = function() return vim.fs.dirname(path) end,
+            }
+          end
+        end
+      end,
     },
   },
 }
