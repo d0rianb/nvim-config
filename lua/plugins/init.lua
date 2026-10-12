@@ -12,7 +12,6 @@ require('lazy').setup {
     colorscheme = { 'palenight', 'tokyonight' },
   },
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-  'mg979/vim-visual-multi', -- mutli cursors
 
   {
     'olrtg/nvim-emmet',
