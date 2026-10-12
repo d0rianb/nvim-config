@@ -105,7 +105,7 @@ return {
         use_libuv_file_watcher = true,
         window = {
           mappings = {
-            ['x'] = 'system_open',
+            ['o'] = 'system_open',
             ['Y'] = copy_path,
             -- ['<leader>tt'] = 'close_current',
           },
