@@ -57,3 +57,8 @@ hl(0, 'DiffviewDiffChange', { bg = '#1c1c2a' })
 hl(0, 'DiffviewDiffText', { bg = '#264026' })
 hl(0, 'DiffviewDiffAddAsDelete', { bg = '#2a1c1c' })
 hl(0, 'DiffviewEmpty', { fg = '#8888aa', bg = '#1e1e2e' })
+
+--- Search & multicursors ---
+vim.api.nvim_set_hl(0, 'Search', { bg = '#4b4a5e' })
+vim.api.nvim_set_hl(0, 'CurSearch', { bg = '#6a5f8a' })
+vim.api.nvim_set_hl(0, 'MCursor', { fg = '#f2a7f0', reverse = true, bold = true })
