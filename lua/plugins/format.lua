@@ -38,6 +38,7 @@ return { -- Autoformat
       typescriptreact = { 'oxfmt' },
       html = { 'oxfmt' },
       vue = { 'oxfmt' },
+      astro = { 'oxfmt' },
       css = { 'oxfmt' },
       json = { 'oxfmt' },
       yaml = { 'oxfmt' },
@@ -46,17 +47,18 @@ return { -- Autoformat
     },
     formatters = {
       oxfmt = function(bufnr)
+        local override = {}
         local dirname = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
         for _, path in ipairs(vim.fs.find('package.json', { upward = true, path = dirname, limit = math.huge })) do
           local ok, package = pcall(function() return vim.json.decode(table.concat(vim.fn.readfile(path), '\n')) end)
           if ok and type(package) == 'table' and ((package.dependencies or {})['vite-plus'] or (package.devDependencies or {})['vite-plus']) then
-            return {
-              command = 'vp',
-              args = { 'fmt', '--stdin-filepath', '$FILENAME' },
-              cwd = function() return vim.fs.dirname(path) end,
-            }
+            override.command = 'vp'
+            override.args = { 'fmt', '--stdin-filepath', '$FILENAME' }
+            override.cwd = function() return vim.fs.dirname(path) end
+            break
           end
         end
+        return override
       end,
     },
   },
