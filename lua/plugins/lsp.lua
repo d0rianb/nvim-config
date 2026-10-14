@@ -114,6 +114,11 @@ return {
       local mason_servers = {
         clangd = {},
         cssls = {},
+        css_variables = {
+          capabilities = capabilities,
+          filetypes = { 'css', 'scss', 'less', 'astro' },
+          root_dir = function(bufnr, on_dir) on_dir(vim.fs.root(bufnr, { 'pnpm-workspace.yaml', '.git' }) or vim.fn.getcwd()) end,
+        },
         html = {},
         marksman = {},
         emmet_language_server = {
